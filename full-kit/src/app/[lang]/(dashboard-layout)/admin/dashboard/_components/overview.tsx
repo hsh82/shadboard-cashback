@@ -1,15 +1,14 @@
 "use client"
 
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-} from "recharts"
-import { AlertTriangle, CheckCircle2, Info, XCircle } from "lucide-react"
+  AlertTriangle,
+  CheckCircle2,
+  Info,
+  TrendingDown,
+  TrendingUp,
+  XCircle,
+} from "lucide-react"
 
 import {
   cashbackEntries,
@@ -25,13 +24,16 @@ import {
   dailyMetrics,
 } from "@/data/mock/admin-metrics"
 
+import { useSettings } from "@/hooks/use-settings"
 import { useDictionary } from "@/contexts/dictionary-context"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { Progress } from "@/components/ui/progress"
 import {
   Select,
   SelectContent,
@@ -47,17 +49,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+  Timeline,
+  TimelineContent,
+  TimelineHeading,
+  TimelineItem,
+  TimelineLine,
+} from "@/components/ui/timeline"
 import { DashboardCard } from "@/components/dashboards/dashboard-card"
+import { PercentageChangeBadge } from "@/components/dashboards/percentage-change-badge"
 
 const chartConfig = {
-  revenue: { label: "Revenue", color: "hsl(var(--primary))" },
-  orders: { label: "Orders", color: "hsl(var(--primary))" },
-  cashback: { label: "Cashback", color: "hsl(var(--primary))" },
+  revenue: { label: "Revenue", color: "hsl(var(--chart-1))" },
+  orders: { label: "Orders", color: "hsl(var(--chart-2))" },
+  cashback: { label: "Cashback", color: "hsl(var(--chart-3))" },
+  commission: { label: "Commission", color: "hsl(var(--chart-4))" },
 }
+
+const funnelStages = [
+  { key: "generated", label: "Generated", color: "bg-blue-500" },
+  { key: "pending", label: "Pending Review", color: "bg-yellow-500" },
+  { key: "approved", label: "Approved", color: "bg-green-500" },
+  { key: "redeemed", label: "Redeemed", color: "bg-purple-500" },
+  { key: "expired", label: "Expired", color: "bg-red-500" },
+] as const
 
 export function AdminDashboardOverview() {
   const dictionary = useDictionary()
   const d = dictionary.admin
+  const { settings } = useSettings()
+  const isRTL = settings.locale === "ar" || settings.locale === "fa"
 
   const totalShops = shops.filter((s) => s.status === "active").length
   const activeCustomers = customers.filter((c) => c.status === "active").length
@@ -76,45 +97,119 @@ export function AdminDashboardOverview() {
     .reduce((sum, t) => sum + t.amount, 0)
   const activeCampaigns = 3
 
+  const totalFunnel = cashbackFunnel.generated
+
   const topShops = [...shops]
     .sort((a, b) => b.totalSales - a.totalSales)
     .slice(0, 5)
 
+  const recentActivity = [
+    {
+      id: "1",
+      title: "New shop approved",
+      description: "Fresh Grocery passed verification",
+      time: "2h ago",
+      status: "done" as const,
+    },
+    {
+      id: "2",
+      title: "Cashback redeemed",
+      description: "$45.20 redeemed by Niloofar T.",
+      time: "4h ago",
+      status: "done" as const,
+    },
+    {
+      id: "3",
+      title: "Campaign created",
+      description: "Summer Sale launched by Fashion Hub",
+      time: "6h ago",
+      status: "default" as const,
+    },
+    {
+      id: "4",
+      title: "Large refund",
+      description: "Order ORD-005 refunded ($50)",
+      time: "8h ago",
+      status: "done" as const,
+    },
+    {
+      id: "5",
+      title: "Cashback rule updated",
+      description: "Default rate changed to 5%",
+      time: "1d ago",
+      status: "done" as const,
+    },
+  ]
+
   return (
     <>
       <div className="col-span-full grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <DashboardCard title={d.totalShops} period="" size="xs">
-          <p className="text-2xl font-semibold">{totalShops}</p>
+        <DashboardCard title={d.totalShops} period="">
+          <div className="flex items-end justify-between">
+            <p className="text-2xl font-semibold">{totalShops}</p>
+            <PercentageChangeBadge value={8.2} />
+          </div>
+          <p className="text-xs text-muted-foreground">+2 this month</p>
         </DashboardCard>
-        <DashboardCard title={d.activeCustomers} period="" size="xs">
-          <p className="text-2xl font-semibold">{activeCustomers}</p>
+        <DashboardCard title={d.activeCustomers} period="">
+          <div className="flex items-end justify-between">
+            <p className="text-2xl font-semibold">{activeCustomers}</p>
+            <PercentageChangeBadge value={15.3} />
+          </div>
+          <p className="text-xs text-muted-foreground">+12% vs last month</p>
         </DashboardCard>
-        <DashboardCard title={d.ordersToday} period="" size="xs">
-          <p className="text-2xl font-semibold">{ordersToday}</p>
+        <DashboardCard title={d.ordersToday} period="">
+          <div className="flex items-end justify-between">
+            <p className="text-2xl font-semibold">{ordersToday}</p>
+            <PercentageChangeBadge value={5.1} />
+          </div>
+          <p className="text-xs text-muted-foreground">+4% vs yesterday</p>
         </DashboardCard>
-        <DashboardCard title={d.revenueToday} period="" size="xs">
-          <p className="text-2xl font-semibold">
-            ${revenueToday.toLocaleString()}
-          </p>
+        <DashboardCard title={d.revenueToday} period="">
+          <div className="flex items-end justify-between">
+            <p className="text-2xl font-semibold">
+              ${revenueToday.toLocaleString()}
+            </p>
+            <PercentageChangeBadge value={12.5} />
+          </div>
+          <p className="text-xs text-muted-foreground">+$890 vs yesterday</p>
         </DashboardCard>
       </div>
 
       <div className="col-span-full grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <DashboardCard title={d.cashbackIssued} period="" size="xs">
-          <p className="text-2xl font-semibold">${cashbackIssued.toFixed(2)}</p>
+        <DashboardCard title={d.cashbackIssued} period="">
+          <div className="flex items-end justify-between">
+            <p className="text-2xl font-semibold">
+              ${cashbackIssued.toFixed(2)}
+            </p>
+            <PercentageChangeBadge value={10.2} />
+          </div>
+          <p className="text-xs text-muted-foreground">+3.2% this week</p>
         </DashboardCard>
-        <DashboardCard title={d.pendingCashback} period="" size="xs">
-          <p className="text-2xl font-semibold">
-            ${pendingCashback.toFixed(2)}
-          </p>
+        <DashboardCard title={d.pendingCashback} period="">
+          <div className="flex items-end justify-between">
+            <p className="text-2xl font-semibold">
+              ${pendingCashback.toFixed(2)}
+            </p>
+            <PercentageChangeBadge value={-2.4} />
+          </div>
+          <p className="text-xs text-muted-foreground">-5 pending reviews</p>
         </DashboardCard>
-        <DashboardCard title={d.platformCommission} period="" size="xs">
-          <p className="text-2xl font-semibold">
-            ${platformCommission.toFixed(2)}
-          </p>
+        <DashboardCard title={d.platformCommission} period="">
+          <div className="flex items-end justify-between">
+            <p className="text-2xl font-semibold">
+              ${platformCommission.toFixed(2)}
+            </p>
+            <PercentageChangeBadge value={18.7} />
+          </div>
+          <p className="text-xs text-muted-foreground">+$120 vs last week</p>
         </DashboardCard>
-        <DashboardCard title={d.activeCampaigns} period="" size="xs">
-          <p className="text-2xl font-semibold">{activeCampaigns}</p>
+        <DashboardCard title={d.activeCampaigns} period="">
+          <div className="flex items-end justify-between">
+            <p className="text-2xl font-semibold">{activeCampaigns}</p>
+            <PercentageChangeBadge value={0} />
+          </div>
+          <p className="text-xs text-muted-foreground">1 ending soon</p>
         </DashboardCard>
       </div>
 
@@ -153,36 +248,27 @@ export function AdminDashboardOverview() {
       </Card>
 
       <Card className="col-span-full lg:col-span-2">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>{d.cashbackFunnel}</CardTitle>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-64 w-full">
-            <BarChart
-              data={[
-                { stage: d.generated, value: cashbackFunnel.generated },
-                {
-                  stage: dictionary.cashback.pending,
-                  value: cashbackFunnel.pending,
-                },
-                {
-                  stage: dictionary.cashback.approved,
-                  value: cashbackFunnel.approved,
-                },
-                {
-                  stage: dictionary.cashback.redeemed,
-                  value: cashbackFunnel.redeemed,
-                },
-                { stage: d.expired, value: cashbackFunnel.expired },
-              ]}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="stage" />
-              <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Bar dataKey="value" fill="hsl(var(--chart-1))" radius={4} />
-            </BarChart>
-          </ChartContainer>
+          <div className="space-y-6">
+            {funnelStages.map((stage) => {
+              const value = cashbackFunnel[stage.key]
+              const pct = totalFunnel > 0 ? (value / totalFunnel) * 100 : 0
+              return (
+                <div key={stage.key}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-medium">{stage.label}</span>
+                    <span className="text-sm text-muted-foreground">
+                      ${value.toLocaleString()} ({pct.toFixed(1)}%)
+                    </span>
+                  </div>
+                  <Progress value={pct} className="h-2" />
+                </div>
+              )
+            })}
+          </div>
         </CardContent>
       </Card>
 
@@ -196,10 +282,11 @@ export function AdminDashboardOverview() {
               <TableRow>
                 <TableHead>Shop</TableHead>
                 <TableHead>Category</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead>Sales</TableHead>
+                <TableHead>Revenue</TableHead>
                 <TableHead>Orders</TableHead>
-                <TableHead>Rating</TableHead>
+                <TableHead>Customers</TableHead>
+                <TableHead>Cashback</TableHead>
+                <TableHead>Growth</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -208,20 +295,36 @@ export function AdminDashboardOverview() {
                 <TableRow key={shop.id}>
                   <TableCell className="font-medium">{shop.name}</TableCell>
                   <TableCell>{shop.category}</TableCell>
-                  <TableCell>{shop.location}</TableCell>
                   <TableCell>${shop.totalSales.toLocaleString()}</TableCell>
                   <TableCell>{shop.totalOrders}</TableCell>
-                  <TableCell>{shop.rating}</TableCell>
+                  <TableCell>{shop.customersCount}</TableCell>
                   <TableCell>
-                    <span
-                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                    $
+                    {(
+                      shop.totalSales *
+                      (shop.cashbackRate / 100)
+                    ).toLocaleString()}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-4 w-4 text-green-500" />
+                      <span className="text-sm font-medium">
+                        +{Math.floor(Math.random() * 20 + 5)}%
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={
                         shop.status === "active"
-                          ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                          : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                      }`}
+                          ? "default"
+                          : shop.status === "pending"
+                            ? "secondary"
+                            : "destructive"
+                      }
                     >
                       {shop.status}
-                    </span>
+                    </Badge>
                   </TableCell>
                 </TableRow>
               ))}
@@ -232,89 +335,99 @@ export function AdminDashboardOverview() {
 
       <Card className="col-span-full lg:col-span-2">
         <CardHeader>
-          <CardTitle>{d.cashbackLiability}</CardTitle>
+          <CardTitle>{d.customerInsights}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">{d.issued}</p>
-              <p className="text-2xl font-bold">
-                $
-                {(
-                  cashbackFunnel.approved + cashbackFunnel.pending
-                ).toLocaleString()}
-              </p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">
-                {d.totalRedeemed || "Redeemed"}
-              </p>
-              <p className="text-2xl font-bold">
-                ${cashbackFunnel.redeemed.toLocaleString()}
-              </p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">
-                {d.pendingCashback}
-              </p>
-              <p className="text-2xl font-bold">
-                ${pendingCashback.toFixed(2)}
-              </p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">{d.expired}</p>
-              <p className="text-2xl font-bold">
-                ${cashbackFunnel.expired.toLocaleString()}
-              </p>
-            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">
+                      {d.newCustomers}
+                    </p>
+                    <p className="text-2xl font-bold">{customerInsights.new}</p>
+                  </div>
+                  <Badge variant="outline" className="text-blue-600">
+                    <TrendingUp className="mr-1 h-3 w-3" />
+                    +12%
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">
+                      {d.returning}
+                    </p>
+                    <p className="text-2xl font-bold">
+                      {customerInsights.returning}
+                    </p>
+                  </div>
+                  <Badge variant="outline" className="text-green-600">
+                    <TrendingUp className="mr-1 h-3 w-3" />
+                    +8%
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">{d.vip}</p>
+                    <p className="text-2xl font-bold">{customerInsights.vip}</p>
+                  </div>
+                  <Badge variant="outline" className="text-purple-600">
+                    <TrendingUp className="mr-1 h-3 w-3" />
+                    +3
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground">{d.dormant}</p>
+                    <p className="text-2xl font-bold">
+                      {customerInsights.dormant}
+                    </p>
+                  </div>
+                  <Badge variant="outline" className="text-red-600">
+                    <TrendingDown className="mr-1 h-3 w-3" />
+                    -2
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </CardContent>
       </Card>
 
       <Card className="col-span-full lg:col-span-2">
         <CardHeader>
-          <CardTitle>{d.customerInsights}</CardTitle>
+          <CardTitle>Recent Platform Activity</CardTitle>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={{}} className="h-64 w-full">
-            <BarChart
-              data={[
-                { segment: d.newCustomers, count: customerInsights.new },
-                { segment: d.returning, count: customerInsights.returning },
-                { segment: d.dormant, count: customerInsights.dormant },
-                { segment: d.vip, count: customerInsights.vip },
-              ]}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="segment" />
-              <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Bar dataKey="count" fill="hsl(var(--chart-1))" radius={4} />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
-
-      <Card className="col-span-full lg:col-span-2">
-        <CardHeader>
-          <CardTitle>{d.shopGrowth}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-64 w-full">
-            <AreaChart data={dailyMetrics}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Area
-                type="monotone"
-                dataKey="activeShops"
-                stroke="hsl(var(--chart-2))"
-                fill="hsl(var(--chart-2))"
-                fillOpacity={0.3}
-              />
-            </AreaChart>
-          </ChartContainer>
+          <Timeline>
+            {recentActivity.map((activity, idx) => (
+              <TimelineItem key={activity.id} status={activity.status}>
+                <TimelineLine done={idx < recentActivity.length - 1} />
+                <TimelineContent>
+                  <TimelineHeading>{activity.title}</TimelineHeading>
+                  <TimelineHeading
+                    variant="secondary"
+                    side={isRTL ? "start" : "end"}
+                  >
+                    {activity.description} • {activity.time}
+                  </TimelineHeading>
+                </TimelineContent>
+              </TimelineItem>
+            ))}
+          </Timeline>
         </CardContent>
       </Card>
 
@@ -323,23 +436,26 @@ export function AdminDashboardOverview() {
           <CardTitle>{d.operationalAlerts}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {alerts.length === 0 ? (
               <p className="text-sm text-muted-foreground">{d.noAlerts}</p>
             ) : (
               alerts.map((alert) => (
-                <div key={alert.id} className="flex items-start gap-3">
+                <div
+                  key={alert.id}
+                  className="flex items-start gap-3 rounded-lg border p-3"
+                >
                   {alert.type === "warning" && (
-                    <AlertTriangle className="h-5 w-5 text-yellow-500 mt-0.5" />
+                    <AlertTriangle className="mt-0.5 h-5 w-5 text-yellow-500" />
                   )}
                   {alert.type === "error" && (
-                    <XCircle className="h-5 w-5 text-red-500 mt-0.5" />
+                    <XCircle className="mt-0.5 h-5 w-5 text-red-500" />
                   )}
                   {alert.type === "info" && (
-                    <Info className="h-5 w-5 text-blue-500 mt-0.5" />
+                    <Info className="mt-0.5 h-5 w-5 text-blue-500" />
                   )}
                   {alert.type === "success" && (
-                    <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5" />
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-green-500" />
                   )}
                   <div className="flex-1">
                     <p className="text-sm font-medium">{alert.message}</p>
@@ -347,6 +463,19 @@ export function AdminDashboardOverview() {
                       {alert.time}
                     </p>
                   </div>
+                  <Badge
+                    variant={
+                      alert.type === "warning"
+                        ? "secondary"
+                        : alert.type === "error"
+                          ? "destructive"
+                          : alert.type === "success"
+                            ? "default"
+                            : "outline"
+                    }
+                  >
+                    {alert.type}
+                  </Badge>
                 </div>
               ))
             )}

@@ -111,6 +111,13 @@ export function formatCurrency(
   }).format(value)
 }
 
+export function formatIRR(value: number, locales: LocaleType = "fa") {
+  return new Intl.NumberFormat(locales, {
+    style: "decimal",
+    maximumFractionDigits: 0,
+  }).format(value) + " ریال"
+}
+
 export function formatPercent(value: number, locales: LocaleType = "en") {
   return new Intl.NumberFormat(locales, {
     style: "percent",

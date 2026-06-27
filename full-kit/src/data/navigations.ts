@@ -612,6 +612,11 @@ export const navigationsData: NavigationType[] = [
         href: "/admin/reports",
         iconName: "ChartBar",
       },
+      {
+        title: "Settings",
+        href: "/admin/settings",
+        iconName: "Settings",
+      },
     ],
   },
   {
