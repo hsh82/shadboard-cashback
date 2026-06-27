@@ -44,7 +44,7 @@ export function RoleSelect({
             className="h-auto py-4 justify-start"
             asChild
           >
-            <Link href={`/${locale}/admin/dashboard`}>
+            <Link href={`/${locale}/shop/dashboard`}>
               <Store className="mr-3 h-5 w-5" />
               <div className="text-start">
                 <div className="font-semibold">Shop / Vendor</div>

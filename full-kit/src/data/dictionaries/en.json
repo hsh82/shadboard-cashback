@@ -145,6 +145,18 @@
       "dismissAll": "Dismiss All",
       "seeAllNotifications": "See All Notifications"
     },
+    "language": {
+      "language": "Language",
+      "english": "English",
+      "arabic": "Arabic",
+      "persian": "Persian"
+    },
+    "mode": {
+      "mode": "Mode",
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System"
+    },
     "userNav": {
       "profile": "Profile",
       "settings": "Settings",
