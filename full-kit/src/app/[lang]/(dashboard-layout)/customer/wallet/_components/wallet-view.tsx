@@ -4,6 +4,8 @@ import { ArrowUpRight, Clock, Wallet } from "lucide-react"
 
 import { cashbackEntries } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { useDictionary } from "@/contexts/dictionary-context"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -39,7 +41,7 @@ export function WalletView() {
             <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalEarned.toFixed(2)}</div>
+            <div className="text-2xl font-bold">{formatRial(totalEarned)}</div>
             <p className="text-xs text-muted-foreground">
               {d.approved} + {d.paid} {d.cashback}
             </p>
@@ -51,7 +53,7 @@ export function WalletView() {
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${pending.toFixed(2)}</div>
+            <div className="text-2xl font-bold">{formatRial(pending)}</div>
             <p className="text-xs text-muted-foreground">
               {d.shopName ? "Awaiting shop approval" : "Awaiting approval"}
             </p>
@@ -65,7 +67,7 @@ export function WalletView() {
             <Wallet className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalEarned.toFixed(2)}</div>
+            <div className="text-2xl font-bold">{formatRial(totalEarned)}</div>
             <Button className="mt-4 w-full">{d.withdraw}</Button>
           </CardContent>
         </Card>
@@ -92,7 +94,7 @@ export function WalletView() {
                 <TableRow key={entry.id}>
                   <TableCell className="font-medium">{entry.orderId}</TableCell>
                   <TableCell>{entry.shopName}</TableCell>
-                  <TableCell>${entry.cashbackAmount.toFixed(2)}</TableCell>
+                  <TableCell>{formatRial(entry.cashbackAmount)}</TableCell>
                   <TableCell>{entry.rate}%</TableCell>
                   <TableCell>
                     <Badge

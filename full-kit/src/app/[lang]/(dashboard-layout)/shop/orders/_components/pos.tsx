@@ -5,6 +5,8 @@ import { Plus } from "lucide-react"
 
 import { orders } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -100,7 +102,7 @@ export function POS() {
                       {items.map((item, idx) => (
                         <TableRow key={idx}>
                           <TableCell>{item.name}</TableCell>
-                          <TableCell>${item.price}</TableCell>
+                          <TableCell>{formatRial(item.price)}</TableCell>
                           <TableCell>
                             <Button
                               type="button"
@@ -117,7 +119,7 @@ export function POS() {
                   </Table>
                 </div>
                 <div className="text-right text-lg font-semibold">
-                  Total: ${total.toFixed(2)}
+                  Total: {formatRial(total)}
                 </div>
               </div>
             )}
@@ -151,7 +153,7 @@ export function POS() {
                 <TableRow key={order.id}>
                   <TableCell className="font-medium">{order.id}</TableCell>
                   <TableCell>{order.customerName}</TableCell>
-                  <TableCell>${order.totalAmount.toFixed(2)}</TableCell>
+                  <TableCell>{formatRial(order.totalAmount)}</TableCell>
                   <TableCell>
                     <span
                       className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${

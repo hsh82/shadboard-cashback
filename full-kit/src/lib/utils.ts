@@ -99,10 +99,13 @@ export function ratingToPercentage(
   return result
 }
 
+export const CURRENCY = "IRR" as const
+export const DEFAULT_CURRENCY_LOCALE = "fa" as const
+
 export function formatCurrency(
   value: number,
-  locales: LocaleType = "en",
-  currency: string = "USD"
+  locales: LocaleType = DEFAULT_CURRENCY_LOCALE,
+  currency: string = CURRENCY
 ) {
   return new Intl.NumberFormat(locales, {
     style: "currency",
@@ -111,11 +114,14 @@ export function formatCurrency(
   }).format(value)
 }
 
-export function formatIRR(value: number, locales: LocaleType = "fa") {
-  return new Intl.NumberFormat(locales, {
-    style: "decimal",
+export function formatRial(
+  value: number,
+  locales: LocaleType = DEFAULT_CURRENCY_LOCALE
+) {
+  const formatted = new Intl.NumberFormat(locales, {
     maximumFractionDigits: 0,
-  }).format(value) + " ریال"
+  }).format(value)
+  return locales === "fa" ? `${formatted} ریال` : `${formatted} ریال`
 }
 
 export function formatPercent(value: number, locales: LocaleType = "en") {

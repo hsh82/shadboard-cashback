@@ -74,11 +74,13 @@ export function SettingsForm() {
               <Input id="defaultRate" type="number" defaultValue="5" />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="minWithdrawal">{d.minWithdrawal} ($)</Label>
+              <Label htmlFor="minWithdrawal">{d.minWithdrawal} (ریال)</Label>
               <Input id="minWithdrawal" type="number" defaultValue="10" />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="maxPerOrder">{d.maxCashbackPerOrder} ($)</Label>
+              <Label htmlFor="maxPerOrder">
+                {d.maxCashbackPerOrder} (ریال)
+              </Label>
               <Input id="maxPerOrder" type="number" defaultValue="100" />
             </div>
             <div className="grid gap-2">

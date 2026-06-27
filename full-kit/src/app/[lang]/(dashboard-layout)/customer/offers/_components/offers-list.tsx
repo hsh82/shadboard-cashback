@@ -2,6 +2,8 @@
 
 import { offers } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -37,7 +39,7 @@ export function OffersList() {
                   <span className="text-xl font-bold text-primary">
                     {offer.type === "percentage"
                       ? `${offer.discount}% OFF`
-                      : `$${offer.discount} OFF`}
+                      : `${formatRial(offer.discount, "en")} OFF`}
                   </span>
                   <span className="text-xs text-muted-foreground">
                     Ends {offer.endsAt}
@@ -75,7 +77,7 @@ export function OffersList() {
                   <span className="text-xl font-bold text-primary">
                     {offer.type === "percentage"
                       ? `${offer.discount}% OFF`
-                      : `$${offer.discount} OFF`}
+                      : `${formatRial(offer.discount, "en")} OFF`}
                   </span>
                   <span className="text-xs text-muted-foreground">
                     Starts {offer.startsAt}

@@ -30,13 +30,10 @@ export const cardContentVariants = cva(
       size: {
         xs: "h-32",
         sm: "h-64",
-        default: "h-96",
         lg: "h-[29rem]",
       },
     },
-    defaultVariants: {
-      size: "default",
-    },
+    defaultVariants: {},
   }
 )
 

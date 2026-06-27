@@ -4,6 +4,8 @@ import { MoreHorizontal } from "lucide-react"
 
 import { cashbackEntries } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -50,7 +52,7 @@ export function CashbackTable() {
                 <TableCell>{entry.orderId}</TableCell>
                 <TableCell>{entry.customerName}</TableCell>
                 <TableCell>{entry.shopName}</TableCell>
-                <TableCell>${entry.cashbackAmount.toFixed(2)}</TableCell>
+                <TableCell>{formatRial(entry.cashbackAmount)}</TableCell>
                 <TableCell>
                   <Badge
                     variant={

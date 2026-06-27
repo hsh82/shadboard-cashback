@@ -4,6 +4,8 @@ import { MoreHorizontal } from "lucide-react"
 
 import { orders } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -53,7 +55,7 @@ export function OrdersTable() {
                 <TableCell>
                   {order.items.map((i) => `${i.name} x${i.qty}`).join(", ")}
                 </TableCell>
-                <TableCell>${order.totalAmount.toFixed(2)}</TableCell>
+                <TableCell>{formatRial(order.totalAmount)}</TableCell>
                 <TableCell>{order.createdAt}</TableCell>
                 <TableCell>
                   <Badge

@@ -8,6 +8,8 @@ import {
   transactions,
 } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { useDictionary } from "@/contexts/dictionary-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -61,9 +63,7 @@ export function ReportsTabs() {
               <CardTitle>{d.grossRevenue}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">
-                ${totalRevenue.toLocaleString()}
-              </p>
+              <p className="text-2xl font-bold">{formatRial(totalRevenue)}</p>
             </CardContent>
           </Card>
           <Card>
@@ -72,7 +72,7 @@ export function ReportsTabs() {
             </CardHeader>
             <CardContent>
               <p className="text-2xl font-bold">
-                ${(totalRevenue - totalPaid).toLocaleString()}
+                {formatRial(totalRevenue - totalPaid)}
               </p>
             </CardContent>
           </Card>
@@ -81,7 +81,7 @@ export function ReportsTabs() {
               <CardTitle>{d.avgOrderValue}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">${avgOrderValue.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{formatRial(avgOrderValue)}</p>
             </CardContent>
           </Card>
           <Card>
@@ -130,7 +130,7 @@ export function ReportsTabs() {
                 </TableRow>
                 <TableRow>
                   <TableCell>Cashback Paid</TableCell>
-                  <TableCell>${totalRedeemed.toFixed(2)}</TableCell>
+                  <TableCell>{formatRial(totalRedeemed)}</TableCell>
                   <TableCell>+5%</TableCell>
                 </TableRow>
               </TableBody>
@@ -146,9 +146,7 @@ export function ReportsTabs() {
               <CardTitle>{d.grossRevenue}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">
-                ${totalRevenue.toLocaleString()}
-              </p>
+              <p className="text-2xl font-bold">{formatRial(totalRevenue)}</p>
             </CardContent>
           </Card>
           <Card>
@@ -157,7 +155,7 @@ export function ReportsTabs() {
             </CardHeader>
             <CardContent>
               <p className="text-2xl font-bold">
-                ${(totalRevenue - totalPaid).toLocaleString()}
+                {formatRial(totalRevenue - totalPaid)}
               </p>
             </CardContent>
           </Card>
@@ -167,7 +165,7 @@ export function ReportsTabs() {
             </CardHeader>
             <CardContent>
               <p className="text-2xl font-bold">
-                ${commissionRevenue.toFixed(2)}
+                {formatRial(commissionRevenue)}
               </p>
             </CardContent>
           </Card>
@@ -191,7 +189,7 @@ export function ReportsTabs() {
                   <TableRow key={txn.id}>
                     <TableCell>{txn.id}</TableCell>
                     <TableCell className="capitalize">{txn.type}</TableCell>
-                    <TableCell>${txn.amount.toFixed(2)}</TableCell>
+                    <TableCell>{formatRial(txn.amount)}</TableCell>
                     <TableCell>
                       {new Date(txn.createdAt).toLocaleDateString()}
                     </TableCell>
@@ -210,7 +208,7 @@ export function ReportsTabs() {
               <CardTitle>{d.issued}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">${totalPaid.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{formatRial(totalPaid)}</p>
             </CardContent>
           </Card>
           <Card>
@@ -218,7 +216,7 @@ export function ReportsTabs() {
               <CardTitle>{d.totalRedeemed || "Redeemed"}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">${totalRedeemed.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{formatRial(totalRedeemed)}</p>
             </CardContent>
           </Card>
           <Card>
@@ -227,7 +225,7 @@ export function ReportsTabs() {
             </CardHeader>
             <CardContent>
               <p className="text-2xl font-bold">
-                ${pendingCashback.toFixed(2)}
+                {formatRial(pendingCashback)}
               </p>
             </CardContent>
           </Card>
@@ -237,11 +235,11 @@ export function ReportsTabs() {
             </CardHeader>
             <CardContent>
               <p className="text-2xl font-bold">
-                $
-                {cashbackEntries
-                  .filter((c) => c.status === "rejected")
-                  .reduce((sum, c) => sum + c.cashbackAmount, 0)
-                  .toFixed(2)}
+                {formatRial(
+                  cashbackEntries
+                    .filter((c) => c.status === "rejected")
+                    .reduce((sum, c) => sum + c.cashbackAmount, 0)
+                )}
               </p>
             </CardContent>
           </Card>
@@ -267,7 +265,7 @@ export function ReportsTabs() {
                     <TableCell>{cb.id}</TableCell>
                     <TableCell>{cb.orderId}</TableCell>
                     <TableCell>{cb.customerName}</TableCell>
-                    <TableCell>${cb.cashbackAmount.toFixed(2)}</TableCell>
+                    <TableCell>{formatRial(cb.cashbackAmount)}</TableCell>
                     <TableCell>
                       <span className="capitalize">{cb.status}</span>
                     </TableCell>
@@ -302,7 +300,7 @@ export function ReportsTabs() {
                     <TableRow key={shop.id}>
                       <TableCell>#{idx + 1}</TableCell>
                       <TableCell className="font-medium">{shop.name}</TableCell>
-                      <TableCell>${shop.totalSales.toLocaleString()}</TableCell>
+                      <TableCell>{formatRial(shop.totalSales)}</TableCell>
                       <TableCell>{shop.totalOrders}</TableCell>
                       <TableCell>{shop.customersCount}</TableCell>
                     </TableRow>
@@ -338,11 +336,9 @@ export function ReportsTabs() {
                       <TableCell className="font-medium">
                         {customer.name}
                       </TableCell>
+                      <TableCell>{formatRial(customer.totalSpent)}</TableCell>
                       <TableCell>
-                        ${customer.totalSpent.toLocaleString()}
-                      </TableCell>
-                      <TableCell>
-                        ${customer.totalCashback.toLocaleString()}
+                        {formatRial(customer.totalCashback)}
                       </TableCell>
                       <TableCell>{customer.ordersCount}</TableCell>
                     </TableRow>
@@ -391,7 +387,7 @@ export function ReportsTabs() {
                 <TableRow>
                   <TableCell className="font-medium">Book Fest</TableCell>
                   <TableCell>Book Nook</TableCell>
-                  <TableCell>$10</TableCell>
+                  <TableCell>{formatRial(10)}</TableCell>
                   <TableCell>2024-07-15</TableCell>
                   <TableCell>
                     <span className="text-blue-600">Upcoming</span>

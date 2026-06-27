@@ -1,17 +1,30 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { Plus, Minus, Search, UserPlus, Trash2, CheckCircle2, Receipt } from "lucide-react"
-import { useDictionary } from "@/contexts/dictionary-context"
-import { customers as initialCustomers, products, orders } from "@/data/mock"
+import { useMemo, useState } from "react"
+import { toast } from "sonner"
+import {
+  CheckCircle2,
+  Minus,
+  Plus,
+  Receipt,
+  Search,
+  Trash2,
+  UserPlus,
+} from "lucide-react"
+
 import type { CustomerType, ProductType } from "@/data/mock"
+
+import { customers as initialCustomers, products } from "@/data/mock"
+
+import { formatRial } from "@/lib/utils"
+
+import { useDictionary } from "@/contexts/dictionary-context"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { toast } from "@/components/ui/sonner"
 
 interface CartItem extends ProductType {
   quantity: number
@@ -22,15 +35,19 @@ export function POSPage() {
   const d = dictionary.shop
   const cd = dictionary.cashback
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCustomer, setSelectedCustomer] = useState<CustomerType | null>(null)
+  const [selectedCustomer, setSelectedCustomer] = useState<CustomerType | null>(
+    null
+  )
   const [showNewCustomer, setShowNewCustomer] = useState(false)
   const [newCustomerName, setNewCustomerName] = useState("")
   const [newCustomerPhone, setNewCustomerPhone] = useState("")
   const [cart, setCart] = useState<CartItem[]>([])
   const [discount, setDiscount] = useState(0)
-  const [orderComplete, setOrderComplete] = useState(false)
+  const orderCompleteRef = { current: false }
 
-  const shopProducts = products.filter((p) => p.status === "active" && p.shopId === "1")
+  const shopProducts = products.filter(
+    (p) => p.status === "active" && p.shopId === "1"
+  )
 
   const filteredCustomers = useMemo(() => {
     if (!searchQuery) return []
@@ -71,7 +88,10 @@ export function POSPage() {
     setCart((prev) => prev.filter((item) => item.id !== id))
   }
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  )
   const cashbackEarned = cart.reduce(
     (sum, item) => sum + item.price * item.quantity * 0.05,
     0
@@ -88,14 +108,12 @@ export function POSPage() {
       toast.error("Cart is empty")
       return
     }
-    setOrderComplete(true)
+    orderCompleteRef.current = true
     toast.success("Order completed successfully!", {
       description: `Receipt generated for ${selectedCustomer.name}`,
     })
     setTimeout(() => {
-      setCart([])
-      setDiscount(0)
-      setOrderComplete(false)
+      orderCompleteRef.current = false
       setSelectedCustomer(null)
       setSearchQuery("")
     }, 2000)
@@ -158,7 +176,9 @@ export function POSPage() {
                   >
                     <div>
                       <p className="text-sm font-medium">{customer.name}</p>
-                      <p className="text-xs text-muted-foreground">{customer.phone}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {customer.phone}
+                      </p>
                     </div>
                     <Badge variant="outline" className="text-xs">
                       {customer.status}
@@ -182,15 +202,19 @@ export function POSPage() {
                 </Button>
               </div>
               <p className="text-lg font-semibold">{selectedCustomer.name}</p>
-              <p className="text-sm text-muted-foreground">{selectedCustomer.phone}</p>
+              <p className="text-sm text-muted-foreground">
+                {selectedCustomer.phone}
+              </p>
               <Separator />
               <div className="space-y-1">
-                <span className="text-sm text-muted-foreground">{cd.wallet}</span>
+                <span className="text-sm text-muted-foreground">
+                  {cd.wallet}
+                </span>
                 <p className="text-xl font-bold text-green-600">
-                  ${selectedCustomer.totalCashback.toLocaleString()}
+                  {formatRial(selectedCustomer.totalCashback)}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {cd.pending}: ${selectedCustomer.pendingCashback}
+                  {cd.pending}: {formatRial(selectedCustomer.pendingCashback)}
                 </p>
               </div>
             </div>
@@ -267,7 +291,7 @@ export function POSPage() {
                   {product.name}
                 </span>
                 <span className="mt-1 text-lg font-bold text-primary">
-                  ${product.price}
+                  {formatRial(product.price)}
                 </span>
                 <span className="text-xs text-muted-foreground">
                   Cashback: {Math.floor(Math.random() * 10 + 2)}%
@@ -283,7 +307,9 @@ export function POSPage() {
         <CardContent className="flex flex-1 flex-col p-4">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-semibold">{d.shoppingCart}</h3>
-            <Badge variant="secondary">{cart.length} {d.items}</Badge>
+            <Badge variant="secondary">
+              {cart.length} {d.items}
+            </Badge>
           </div>
 
           {cart.length === 0 ? (
@@ -301,7 +327,7 @@ export function POSPage() {
                     <div className="flex-1">
                       <p className="text-sm font-medium">{item.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        ${item.price} each
+                        {formatRial(item.price)} each
                       </p>
                     </div>
                     <div className="flex items-center gap-1">
@@ -327,7 +353,7 @@ export function POSPage() {
                     </div>
                     <div className="ml-2 text-right">
                       <p className="text-sm font-semibold">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        {formatRial(item.price * item.quantity)}
                       </p>
                       <Button
                         variant="ghost"
@@ -347,14 +373,20 @@ export function POSPage() {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">{d.subtotal}</span>
-                  <span className="font-medium">${subtotal.toFixed(2)}</span>
+                  <span className="font-medium">{formatRial(subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">{d.discount} (%)</span>
-                  <span className="font-medium">-${discountAmount.toFixed(2)}</span>
+                  <span className="text-muted-foreground">
+                    {d.discount} (%)
+                  </span>
+                  <span className="font-medium">
+                    -{formatRial(discountAmount)}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Label className="text-sm text-muted-foreground">Discount %</Label>
+                  <Label className="text-sm text-muted-foreground">
+                    Discount %
+                  </Label>
                   <Input
                     type="number"
                     value={discount}
@@ -367,11 +399,13 @@ export function POSPage() {
                 <Separator />
                 <div className="flex justify-between text-lg font-bold">
                   <span>{d.finalTotal}</span>
-                  <span>${finalTotal.toFixed(2)}</span>
+                  <span>{formatRial(finalTotal)}</span>
                 </div>
                 <div className="flex justify-between text-sm text-green-600">
                   <span>{cd.earned}</span>
-                  <span className="font-medium">+${cashbackEarned.toFixed(2)}</span>
+                  <span className="font-medium">
+                    +{formatRial(cashbackEarned)}
+                  </span>
                 </div>
               </div>
 

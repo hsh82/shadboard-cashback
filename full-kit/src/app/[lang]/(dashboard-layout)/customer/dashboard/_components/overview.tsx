@@ -4,6 +4,8 @@ import { Banknote, ShoppingBag, Wallet } from "lucide-react"
 
 import { cashbackEntries, orders } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { useDictionary } from "@/contexts/dictionary-context"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -99,7 +101,7 @@ export function CustomerOverview() {
                     <TableCell className="font-medium">{order.id}</TableCell>
                     <TableCell>{order.shopName}</TableCell>
                     <TableCell>{order.createdAt}</TableCell>
-                    <TableCell>${order.totalAmount.toFixed(2)}</TableCell>
+                    <TableCell>{formatRial(order.totalAmount)}</TableCell>
                     <TableCell>
                       <Badge
                         variant={

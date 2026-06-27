@@ -1,19 +1,17 @@
 "use client"
 
-import { useDictionary } from "@/contexts/dictionary-context"
-import { dailyMetrics } from "@/data/mock/admin-metrics"
-import { orders, cashbackEntries, customers, products, shops } from "@/data/mock"
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-} from "recharts"
-import { TrendingUp } from "lucide-react"
+import Link from "next/link"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import { Package, PlusCircle, ShoppingCart, UserPlus } from "lucide-react"
 
-import { DashboardCard } from "@/components/dashboards/dashboard-card"
+import { cashbackEntries, customers, orders, products } from "@/data/mock"
+import { dailyMetrics } from "@/data/mock/admin-metrics"
+
+import { formatRial } from "@/lib/utils"
+
+import { useDictionary } from "@/contexts/dictionary-context"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   ChartContainer,
@@ -35,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { DashboardCard } from "@/components/dashboards/dashboard-card"
 import { PercentageChangeBadge } from "@/components/dashboards/percentage-change-badge"
 
 const chartConfig = {
@@ -46,7 +45,6 @@ const chartConfig = {
 export function ShopDashboardOverview() {
   const dictionary = useDictionary()
   const d = dictionary.shop
-  const cd = dictionary.cashback
 
   const shopId = "1"
   const shopOrders = orders.filter((o) => o.shopId === shopId)
@@ -73,8 +71,11 @@ export function ShopDashboardOverview() {
 
   const recentOrders = shopOrders.slice(0, 5)
   const lowStockProducts = shopProducts.filter((p) => p.stock < 10)
-  const topSellingProducts = [...shopProducts]
-    .sort((a, b) => b.totalOrders - a.totalOrders)
+  const topSellingProducts = shopProducts.slice(0, 5)
+  const recentCustomers = customers.slice(0, 5)
+  const recentCashback = shopCashback
+    .slice(0)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .slice(0, 5)
 
   return (
@@ -82,14 +83,18 @@ export function ShopDashboardOverview() {
       <div className="col-span-full grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <DashboardCard title={d.todaySales} period="">
           <div className="flex items-end justify-between">
-            <p className="text-2xl font-semibold">${todaySales.toLocaleString()}</p>
+            <p className="text-2xl font-semibold">{formatRial(todaySales)}</p>
             <PercentageChangeBadge value={12.5} />
           </div>
-          <p className="text-xs text-muted-foreground">+$890 vs yesterday</p>
+          <p className="text-xs text-muted-foreground">
+            +{formatRial(890)} vs yesterday
+          </p>
         </DashboardCard>
         <DashboardCard title={d.monthlyRevenue} period="">
           <div className="flex items-end justify-between">
-            <p className="text-2xl font-semibold">${monthlyRevenue.toLocaleString()}</p>
+            <p className="text-2xl font-semibold">
+              {formatRial(monthlyRevenue)}
+            </p>
             <PercentageChangeBadge value={8.3} />
           </div>
           <p className="text-xs text-muted-foreground">+5% vs last month</p>
@@ -113,14 +118,16 @@ export function ShopDashboardOverview() {
       <div className="col-span-full grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <DashboardCard title={d.pendingCashback} period="">
           <div className="flex items-end justify-between">
-            <p className="text-2xl font-semibold">${pendingCashback.toFixed(2)}</p>
+            <p className="text-2xl font-semibold">
+              {formatRial(pendingCashback)}
+            </p>
             <PercentageChangeBadge value={-2.4} />
           </div>
           <p className="text-xs text-muted-foreground">-5 pending reviews</p>
         </DashboardCard>
         <DashboardCard title={d.cashbackPaid} period="">
           <div className="flex items-end justify-between">
-            <p className="text-2xl font-semibold">${cashbackPaid.toFixed(2)}</p>
+            <p className="text-2xl font-semibold">{formatRial(cashbackPaid)}</p>
             <PercentageChangeBadge value={10.2} />
           </div>
           <p className="text-xs text-muted-foreground">+3.2% this week</p>
@@ -130,7 +137,9 @@ export function ShopDashboardOverview() {
             <p className="text-2xl font-semibold">{activeProducts}</p>
             <PercentageChangeBadge value={0} />
           </div>
-          <p className="text-xs text-muted-foreground">{lowStockProducts.length} low stock</p>
+          <p className="text-xs text-muted-foreground">
+            {lowStockProducts.length} low stock
+          </p>
         </DashboardCard>
         <DashboardCard title={d.activeOffers} period="">
           <div className="flex items-end justify-between">
@@ -182,18 +191,24 @@ export function ShopDashboardOverview() {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
               <p className="text-sm text-muted-foreground">{d.avgOrderValue}</p>
-              <p className="text-2xl font-bold">${avgOrderValue.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{formatRial(avgOrderValue)}</p>
             </div>
             <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">{d.avgCashbackPercent}</p>
-              <p className="text-2xl font-bold">{avgCashbackPercent.toFixed(1)}%</p>
+              <p className="text-sm text-muted-foreground">
+                {d.avgCashbackPercent}
+              </p>
+              <p className="text-2xl font-bold">
+                {avgCashbackPercent.toFixed(1)}%
+              </p>
             </div>
             <div className="space-y-1">
               <p className="text-sm text-muted-foreground">{d.ordersToday}</p>
               <p className="text-2xl font-bold">{ordersToday}</p>
             </div>
             <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">{d.returningCustomers}</p>
+              <p className="text-sm text-muted-foreground">
+                {d.returningCustomers}
+              </p>
               <p className="text-2xl font-bold">
                 {Math.floor(shopCustomers * 0.6)}
               </p>
@@ -225,7 +240,7 @@ export function ShopDashboardOverview() {
                   <TableCell>
                     {order.items.map((i) => `${i.name} x${i.qty}`).join(", ")}
                   </TableCell>
-                  <TableCell>${order.totalAmount.toFixed(2)}</TableCell>
+                  <TableCell>{formatRial(order.totalAmount)}</TableCell>
                   <TableCell>
                     <Badge
                       variant={
@@ -273,11 +288,135 @@ export function ShopDashboardOverview() {
               ))}
               {lowStockProducts.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={3} className="text-center text-muted-foreground">
+                  <TableCell
+                    colSpan={3}
+                    className="text-center text-muted-foreground"
+                  >
                     All products are well stocked
                   </TableCell>
                 </TableRow>
               )}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      {/* Quick Actions */}
+      <Card className="col-span-full">
+        <CardHeader>
+          <CardTitle>{d.quickActions}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Button variant="outline" className="h-auto py-4" asChild>
+              <Link href="/shop/products">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                {d.quickAddProduct}
+              </Link>
+            </Button>
+            <Button variant="outline" className="h-auto py-4" asChild>
+              <Link href="/shop/orders">
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                {d.quickCreateOrder}
+              </Link>
+            </Button>
+            <Button variant="outline" className="h-auto py-4" asChild>
+              <Link href="/shop/customers">
+                <UserPlus className="mr-2 h-4 w-4" />
+                {d.quickAddCustomer}
+              </Link>
+            </Button>
+            <Button variant="outline" className="h-auto py-4" asChild>
+              <Link href="/shop/offers">
+                <Package className="mr-2 h-4 w-4" />
+                {d.quickCreateOffer}
+              </Link>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="col-span-full lg:col-span-2">
+        <CardHeader>
+          <CardTitle>{d.recentCustomers}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Customer</TableHead>
+                <TableHead>Phone</TableHead>
+                <TableHead>Total Spent</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {recentCustomers.map((customer) => (
+                <TableRow key={customer.id}>
+                  <TableCell className="font-medium">{customer.name}</TableCell>
+                  <TableCell>{customer.phone}</TableCell>
+                  <TableCell>{formatRial(customer.totalSpent)}</TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={
+                        customer.status === "vip"
+                          ? "default"
+                          : customer.status === "active"
+                            ? "secondary"
+                            : customer.status === "inactive"
+                              ? "outline"
+                              : "destructive"
+                      }
+                    >
+                      {customer.status}
+                    </Badge>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      <Card className="col-span-full lg:col-span-2">
+        <CardHeader>
+          <CardTitle>{d.recentCashbackActivity}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Customer</TableHead>
+                <TableHead>Order</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {recentCashback.map((entry) => (
+                <TableRow key={entry.id}>
+                  <TableCell className="font-medium">
+                    {entry.customerName}
+                  </TableCell>
+                  <TableCell>{entry.orderId}</TableCell>
+                  <TableCell>{formatRial(entry.cashbackAmount)}</TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={
+                        entry.status === "paid"
+                          ? "default"
+                          : entry.status === "approved"
+                            ? "secondary"
+                            : entry.status === "pending"
+                              ? "outline"
+                              : "destructive"
+                      }
+                    >
+                      {entry.status}
+                    </Badge>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </CardContent>
@@ -302,7 +441,7 @@ export function ShopDashboardOverview() {
                 <TableRow key={product.id}>
                   <TableCell className="font-medium">{product.name}</TableCell>
                   <TableCell>{product.category}</TableCell>
-                  <TableCell>${product.price}</TableCell>
+                  <TableCell>{formatRial(product.price)}</TableCell>
                   <TableCell>{product.stock}</TableCell>
                 </TableRow>
               ))}

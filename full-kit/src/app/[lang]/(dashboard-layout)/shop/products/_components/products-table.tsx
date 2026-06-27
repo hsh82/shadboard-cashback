@@ -7,6 +7,8 @@ import type { ProductType } from "@/data/mock"
 
 import { products } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -105,7 +107,7 @@ export function ProductsTable() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="price">Price ($)</Label>
+                  <Label htmlFor="price">Price (ریال)</Label>
                   <Input
                     id="price"
                     type="number"
@@ -153,7 +155,7 @@ export function ProductsTable() {
                 <TableCell className="font-medium">{product.name}</TableCell>
                 <TableCell>{product.sku}</TableCell>
                 <TableCell>{product.category}</TableCell>
-                <TableCell>${product.price}</TableCell>
+                <TableCell>{formatRial(product.price)}</TableCell>
                 <TableCell>{product.stock}</TableCell>
                 <TableCell>
                   <span

@@ -24,6 +24,8 @@ import {
   dailyMetrics,
 } from "@/data/mock/admin-metrics"
 
+import { formatRial } from "@/lib/utils"
+
 import { useSettings } from "@/hooks/use-settings"
 import { useDictionary } from "@/contexts/dictionary-context"
 import { Badge } from "@/components/ui/badge"
@@ -114,7 +116,7 @@ export function AdminDashboardOverview() {
     {
       id: "2",
       title: "Cashback redeemed",
-      description: "$45.20 redeemed by Niloofar T.",
+      description: "{formatRial(45.2)} redeemed by Niloofar T.",
       time: "4h ago",
       status: "done" as const,
     },
@@ -128,7 +130,7 @@ export function AdminDashboardOverview() {
     {
       id: "4",
       title: "Large refund",
-      description: "Order ORD-005 refunded ($50)",
+      description: "Order ORD-005 refunded ({formatRial(50)})",
       time: "8h ago",
       status: "done" as const,
     },
@@ -167,12 +169,12 @@ export function AdminDashboardOverview() {
         </DashboardCard>
         <DashboardCard title={d.revenueToday} period="">
           <div className="flex items-end justify-between">
-            <p className="text-2xl font-semibold">
-              ${revenueToday.toLocaleString()}
-            </p>
+            <p className="text-2xl font-semibold">{formatRial(revenueToday)}</p>
             <PercentageChangeBadge value={12.5} />
           </div>
-          <p className="text-xs text-muted-foreground">+$890 vs yesterday</p>
+          <p className="text-xs text-muted-foreground">
+            +{formatRial(890)} vs yesterday
+          </p>
         </DashboardCard>
       </div>
 
@@ -180,7 +182,7 @@ export function AdminDashboardOverview() {
         <DashboardCard title={d.cashbackIssued} period="">
           <div className="flex items-end justify-between">
             <p className="text-2xl font-semibold">
-              ${cashbackIssued.toFixed(2)}
+              {formatRial(cashbackIssued)}
             </p>
             <PercentageChangeBadge value={10.2} />
           </div>
@@ -189,7 +191,7 @@ export function AdminDashboardOverview() {
         <DashboardCard title={d.pendingCashback} period="">
           <div className="flex items-end justify-between">
             <p className="text-2xl font-semibold">
-              ${pendingCashback.toFixed(2)}
+              {formatRial(pendingCashback)}
             </p>
             <PercentageChangeBadge value={-2.4} />
           </div>
@@ -198,11 +200,13 @@ export function AdminDashboardOverview() {
         <DashboardCard title={d.platformCommission} period="">
           <div className="flex items-end justify-between">
             <p className="text-2xl font-semibold">
-              ${platformCommission.toFixed(2)}
+              {formatRial(platformCommission)}
             </p>
             <PercentageChangeBadge value={18.7} />
           </div>
-          <p className="text-xs text-muted-foreground">+$120 vs last week</p>
+          <p className="text-xs text-muted-foreground">
+            +{formatRial(120)} vs last week
+          </p>
         </DashboardCard>
         <DashboardCard title={d.activeCampaigns} period="">
           <div className="flex items-end justify-between">
@@ -261,7 +265,7 @@ export function AdminDashboardOverview() {
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium">{stage.label}</span>
                     <span className="text-sm text-muted-foreground">
-                      ${value.toLocaleString()} ({pct.toFixed(1)}%)
+                      {formatRial(value)} ({pct.toFixed(1)}%)
                     </span>
                   </div>
                   <Progress value={pct} className="h-2" />
@@ -295,15 +299,11 @@ export function AdminDashboardOverview() {
                 <TableRow key={shop.id}>
                   <TableCell className="font-medium">{shop.name}</TableCell>
                   <TableCell>{shop.category}</TableCell>
-                  <TableCell>${shop.totalSales.toLocaleString()}</TableCell>
+                  <TableCell>{formatRial(shop.totalSales)}</TableCell>
                   <TableCell>{shop.totalOrders}</TableCell>
                   <TableCell>{shop.customersCount}</TableCell>
                   <TableCell>
-                    $
-                    {(
-                      shop.totalSales *
-                      (shop.cashbackRate / 100)
-                    ).toLocaleString()}
+                    {formatRial(shop.totalSales * (shop.cashbackRate / 100))}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1">

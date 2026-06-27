@@ -33,7 +33,7 @@ export function BasicTable() {
               <TableCell className="font-medium">INV001</TableCell>
               <TableCell>Paid</TableCell>
               <TableCell>Credit Card</TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
+              <TableCell className="text-right">۲۵۰٬۰۰۰ ریال</TableCell>
             </TableRow>
           </TableBody>
         </Table>

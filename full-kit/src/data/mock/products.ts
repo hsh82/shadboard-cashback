@@ -8,6 +8,8 @@ export interface ProductType {
   status: "active" | "draft" | "archived"
   createdAt: string
   shopId: string
+  totalOrders?: number
+  description?: string
 }
 
 export const products: ProductType[] = [
@@ -21,6 +23,7 @@ export const products: ProductType[] = [
     status: "active",
     createdAt: "2024-01-20",
     shopId: "1",
+    totalOrders: 340,
   },
   {
     id: "2",
@@ -32,6 +35,7 @@ export const products: ProductType[] = [
     status: "active",
     createdAt: "2024-02-05",
     shopId: "1",
+    totalOrders: 210,
   },
   {
     id: "3",
@@ -43,6 +47,7 @@ export const products: ProductType[] = [
     status: "active",
     createdAt: "2024-02-18",
     shopId: "2",
+    totalOrders: 180,
   },
   {
     id: "4",
@@ -54,6 +59,7 @@ export const products: ProductType[] = [
     status: "active",
     createdAt: "2024-03-01",
     shopId: "2",
+    totalOrders: 95,
   },
   {
     id: "5",
@@ -65,6 +71,7 @@ export const products: ProductType[] = [
     status: "draft",
     createdAt: "2024-05-10",
     shopId: "3",
+    totalOrders: 0,
   },
   {
     id: "6",
@@ -76,5 +83,6 @@ export const products: ProductType[] = [
     status: "active",
     createdAt: "2024-03-15",
     shopId: "4",
+    totalOrders: 150,
   },
 ]

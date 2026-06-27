@@ -4,6 +4,8 @@ import { MoreHorizontal, PlusCircle } from "lucide-react"
 
 import { offers } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -112,7 +114,7 @@ export function OffersTable() {
                 <TableCell>
                   {offer.type === "percentage"
                     ? `${offer.discount}%`
-                    : `$${offer.discount}`}
+                    : formatRial(offer.discount)}
                 </TableCell>
                 <TableCell>{offer.endsAt}</TableCell>
                 <TableCell>

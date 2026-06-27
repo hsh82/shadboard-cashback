@@ -2,12 +2,17 @@
 
 import { useState } from "react"
 import { MoreHorizontal, PlusCircle, Search } from "lucide-react"
+
 import type { ProductType } from "@/data/mock"
 
-import { products as initialProducts, shops } from "@/data/mock"
+import { products as initialProducts } from "@/data/mock"
+
+import { formatRial } from "@/lib/utils"
+
 import { useDictionary } from "@/contexts/dictionary-context"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -19,7 +24,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
@@ -31,14 +35,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Card, CardContent } from "@/components/ui/card"
 
-const categories = ["Electronics", "Clothing", "Books", "Home & Garden", "Sports", "Food & Beverage", "Toys", "Pets", "Accessories"]
+const categories = [
+  "Electronics",
+  "Clothing",
+  "Books",
+  "Home & Garden",
+  "Sports",
+  "Food & Beverage",
+  "Toys",
+  "Pets",
+  "Accessories",
+]
 
 export function ProductsGrid() {
   const dictionary = useDictionary()
   const d = dictionary.shop
-  const [productsList, setProductsList] = useState<ProductType[]>(initialProducts)
+  const cd = dictionary.cashback
+  const [productsList, setProductsList] =
+    useState<ProductType[]>(initialProducts)
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState<ProductType | null>(null)
   const [search, setSearch] = useState("")
@@ -79,11 +94,11 @@ export function ProductsGrid() {
     if (editing) {
       setProductsList((prev) =>
         prev.map((p) =>
-          p.id === editing.id ? { ...p, ...form, id: p.id } as ProductType : p
+          p.id === editing.id ? ({ ...p, ...form, id: p.id } as ProductType) : p
         )
       )
     } else {
-      const newProduct: ProductType = {
+      const newProduct: ProductType & { description?: string } = {
         id: `${Date.now()}`,
         name: form.name,
         sku: form.sku || `SKU-${Date.now()}`,
@@ -93,6 +108,8 @@ export function ProductsGrid() {
         status: (form.status as ProductType["status"]) || "active",
         createdAt: new Date().toISOString().split("T")[0],
         shopId: "1",
+        description:
+          (form as ProductType & { description?: string }).description || "",
       }
       setProductsList((prev) => [...prev, newProduct])
     }
@@ -108,7 +125,8 @@ export function ProductsGrid() {
       price: product.price,
       stock: product.stock,
       status: product.status,
-      description: "",
+      description:
+        (product as ProductType & { description?: string }).description || "",
     })
     setOpen(true)
   }
@@ -117,9 +135,10 @@ export function ProductsGrid() {
     setProductsList((prev) => prev.filter((p) => p.id !== id))
   }
 
-  const filtered = productsList.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase()) ||
-    p.category.toLowerCase().includes(search.toLowerCase())
+  const filtered = productsList.filter(
+    (p) =>
+      p.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.category.toLowerCase().includes(search.toLowerCase())
   )
 
   return (
@@ -143,7 +162,9 @@ export function ProductsGrid() {
             <SelectContent>
               <SelectItem value="all">{d.allCategories}</SelectItem>
               {categories.map((c) => (
-                <SelectItem key={c} value={c}>{c}</SelectItem>
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -156,41 +177,81 @@ export function ProductsGrid() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
-                <DialogTitle>{editing ? d.editProduct : d.addProduct}</DialogTitle>
+                <DialogTitle>
+                  {editing ? d.editProduct : d.addProduct}
+                </DialogTitle>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
                   <Label htmlFor="name">{d.productName}</Label>
-                  <Input id="name" value={form.name} onChange={(e) => handleChange("name", e.target.value)} />
+                  <Input
+                    id="name"
+                    value={form.name}
+                    onChange={(e) => handleChange("name", e.target.value)}
+                  />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="description">{d.description}</Label>
-                  <Input id="description" value={form.description} onChange={(e) => handleChange("description", e.target.value)} />
+                  <Input
+                    id="description"
+                    value={
+                      (form as ProductType & { description?: string })
+                        .description || ""
+                    }
+                    onChange={(e) =>
+                      handleChange("description", e.target.value as string)
+                    }
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="price">{d.price} (($))</Label>
-                    <Input id="price" type="number" value={form.price} onChange={(e) => handleChange("price", Number(e.target.value))} />
+                    <Label htmlFor="price">{d.price} (ریال)</Label>
+                    <Input
+                      id="price"
+                      type="number"
+                      value={form.price}
+                      onChange={(e) =>
+                        handleChange("price", Number(e.target.value))
+                      }
+                    />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="stock">{d.stock}</Label>
-                    <Input id="stock" type="number" value={form.stock} onChange={(e) => handleChange("stock", Number(e.target.value))} />
+                    <Input
+                      id="stock"
+                      type="number"
+                      value={form.stock}
+                      onChange={(e) =>
+                        handleChange("stock", Number(e.target.value))
+                      }
+                    />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="category">{d.category}</Label>
                     <Select onValueChange={(v) => handleChange("category", v)}>
-                      <SelectTrigger><SelectValue placeholder={d.filterByCategory} /></SelectTrigger>
+                      <SelectTrigger>
+                        <SelectValue placeholder={d.filterByCategory} />
+                      </SelectTrigger>
                       <SelectContent>
-                        {categories.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                        {categories.map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="status">{d.status}</Label>
-                    <Select onValueChange={(v) => handleChange("status", v)} defaultValue="active">
-                      <SelectTrigger><SelectValue /></SelectTrigger>
+                    <Select
+                      onValueChange={(v) => handleChange("status", v)}
+                      defaultValue="active"
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="active">{d.active}</SelectItem>
                         <SelectItem value="draft">{d.draft}</SelectItem>
@@ -199,7 +260,9 @@ export function ProductsGrid() {
                     </Select>
                   </div>
                 </div>
-                <Button onClick={handleSave} className="w-full">{d.save}</Button>
+                <Button onClick={handleSave} className="w-full">
+                  {d.save}
+                </Button>
               </div>
             </DialogContent>
           </Dialog>
@@ -219,7 +282,18 @@ export function ProductsGrid() {
                 <div className="flex items-start justify-between">
                   <div>
                     <h3 className="font-semibold truncate">{product.name}</h3>
-                    <p className="text-sm text-muted-foreground">{product.category}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {product.category}
+                    </p>
+                    {(product as ProductType & { description?: string })
+                      .description && (
+                      <p className="text-xs text-muted-foreground truncate">
+                        {
+                          (product as ProductType & { description?: string })
+                            .description
+                        }
+                      </p>
+                    )}
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -228,20 +302,41 @@ export function ProductsGrid() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => handleEdit(product)}>{d.edit}</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleDelete(product.id)} className="text-destructive">{d.delete}</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleEdit(product)}>
+                        {d.edit}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleDelete(product.id)}
+                        className="text-destructive"
+                      >
+                        {d.delete}
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold">${product.price}</span>
-                  <Badge variant={product.status === "active" ? "default" : "secondary"}>
+                  <span className="text-lg font-bold">
+                    {formatRial(product.price)}
+                  </span>
+                  <Badge
+                    variant={
+                      product.status === "active"
+                        ? "default"
+                        : product.status === "draft"
+                          ? "secondary"
+                          : "destructive"
+                    }
+                  >
                     {product.status}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <span>{cd.cashbackRate}: {Math.floor(Math.random() * 10 + 2)}%</span>
-                  <span>{d.stock}: {product.stock}</span>
+                  <span>
+                    {cd.cashbackRate}: {Math.floor(Math.random() * 10 + 2)}%
+                  </span>
+                  <span>
+                    {d.stock}: {product.stock}
+                  </span>
                 </div>
               </div>
             </CardContent>

@@ -2,6 +2,8 @@
 
 import { cashbackEntries, orders, shops } from "@/data/mock"
 
+import { formatRial } from "@/lib/utils"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Table,
@@ -30,15 +32,13 @@ export function ReportsOverview() {
     <>
       <div className="col-span-full grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <DashboardCard title="Total Sales" period="All time">
-          <p className="text-2xl font-semibold">
-            ${totalSales.toLocaleString()}
-          </p>
+          <p className="text-2xl font-semibold">{formatRial(totalSales)}</p>
         </DashboardCard>
         <DashboardCard title="Avg Order Value" period="Per order">
-          <p className="text-2xl font-semibold">${avgOrderValue.toFixed(2)}</p>
+          <p className="text-2xl font-semibold">{formatRial(avgOrderValue)}</p>
         </DashboardCard>
         <DashboardCard title="Total Cashback" period="Obligated">
-          <p className="text-2xl font-semibold">${totalCashback.toFixed(2)}</p>
+          <p className="text-2xl font-semibold">{formatRial(totalCashback)}</p>
         </DashboardCard>
         <DashboardCard title="Verified Shops" period="Of total">
           <p className="text-2xl font-semibold">
@@ -68,7 +68,7 @@ export function ReportsOverview() {
                 <TableRow key={shop.id}>
                   <TableCell className="font-medium">{shop.name}</TableCell>
                   <TableCell>{shop.category}</TableCell>
-                  <TableCell>${shop.totalSales.toLocaleString()}</TableCell>
+                  <TableCell>{formatRial(shop.totalSales)}</TableCell>
                   <TableCell>{shop.totalOrders}</TableCell>
                   <TableCell>{shop.customersCount}</TableCell>
                   <TableCell>
