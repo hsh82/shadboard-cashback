@@ -4,6 +4,7 @@ import type { DictionaryType } from "@/lib/get-dictionary"
 import type { ReactNode } from "react"
 
 import { useIsVertical } from "@/hooks/use-is-vertical"
+import { DictionaryProvider } from "@/contexts/dictionary-context"
 import { Customizer } from "./customizer"
 import { HorizontalLayout } from "./horizontal-layout"
 import { VerticalLayout } from "./vertical-layout"
@@ -18,7 +19,7 @@ export function Layout({
   const isVertical = useIsVertical()
 
   return (
-    <>
+    <DictionaryProvider dictionary={dictionary}>
       <Customizer />
       {/* If the layout is vertical, render a vertical layout; otherwise, render a horizontal layout */}
       {isVertical ? (
@@ -26,6 +27,6 @@ export function Layout({
       ) : (
         <HorizontalLayout dictionary={dictionary}>{children}</HorizontalLayout>
       )}
-    </>
+    </DictionaryProvider>
   )
 }

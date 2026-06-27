@@ -1,0 +1,20 @@
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: cicd/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - BASE_URL=http://localhost:3000
+      - HOME_PATHNAME=/admin/dashboard
+      - NEXT_PUBLIC_HOME_PATHNAME=/admin/dashboard
+      - NEXTAUTH_URL=http://localhost:3000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s

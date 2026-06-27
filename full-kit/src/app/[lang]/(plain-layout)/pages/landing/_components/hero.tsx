@@ -1,97 +1,66 @@
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+"use client"
 
-import { SocialProofBadgeAvatarsData } from "../_data/social-proof-badge-avatars"
+import Link from "next/link"
+import { ArrowRight, Store, User, Wallet } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { AvatarStack } from "@/components/ui/avatar"
 import { buttonVariants } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 
 export function Hero() {
   return (
     <section className="container space-y-10">
-      <div className="grid place-items-center text-center gap-y-4">
-        <SocialProofBadge />
-        <h1 className="text-6xl font-black leading-none">
-          Build Smarter, Ship Faster
+      <div className="grid place-items-center text-center gap-y-6">
+        <div className="inline-flex items-center rounded-full border bg-background px-4 py-1.5 text-sm font-medium">
+          <Wallet className="mr-2 h-4 w-4" />
+          Cashback Multi-Vendor Platform Demo
+        </div>
+        <h1 className="text-5xl md:text-6xl font-black leading-tight tracking-tight">
+          Earn Cashback on Every Purchase
         </h1>
-        <p className="max-w-prose w-full text-lg text-muted-foreground">
-          A complete admin dashboard template with 4 apps, 20+ pages, and
-          everything wired up using React 19, Next.js 15, and Tailwind CSS 4.
+        <p className="max-w-2xl text-lg text-muted-foreground">
+          A complete demo platform connecting shops, customers, and admins.
+          Vendors manage products and offers, customers earn cashback, and
+          admins monitor everything.
         </p>
-        <div className="flex gap-x-2">
-          <Link
-            href="/dashboards/analytics"
-            className={buttonVariants({ size: "lg" })}
-          >
-            Demo
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link href="/sign-in" className={cn(buttonVariants({ size: "lg" }))}>
+            Get Started
           </Link>
           <Link
-            href="/docs"
-            className={buttonVariants({ variant: "secondary", size: "lg" })}
+            href="#features"
+            className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
           >
-            Documentation
+            Explore Features <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </div>
       </div>
-      <HeroImage />
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card className="p-6 text-center">
+          <Store className="mx-auto h-10 w-10 text-primary mb-3" />
+          <h3 className="text-lg font-semibold">For Shops</h3>
+          <p className="text-sm text-muted-foreground">
+            Manage products, create offers, track sales, and pay cashback
+            obligations.
+          </p>
+        </Card>
+        <Card className="p-6 text-center">
+          <User className="mx-auto h-10 w-10 text-primary mb-3" />
+          <h3 className="text-lg font-semibold">For Customers</h3>
+          <p className="text-sm text-muted-foreground">
+            Browse offers, place orders, and earn cashback on every purchase.
+          </p>
+        </Card>
+        <Card className="p-6 text-center">
+          <Wallet className="mx-auto h-10 w-10 text-primary mb-3" />
+          <h3 className="text-lg font-semibold">For Admins</h3>
+          <p className="text-sm text-muted-foreground">
+            Monitor platform KPIs, vendors, customers, and transactions.
+          </p>
+        </Card>
+      </div>
     </section>
-  )
-}
-
-function SocialProofBadge() {
-  return (
-    <a
-      href="https://github.com/Qualiora/shadboard"
-      className={cn(
-        buttonVariants({ variant: "outline", size: "sm" }),
-        "group gap-x-1.5"
-      )}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <AvatarStack
-        avatars={SocialProofBadgeAvatarsData}
-        size="sm"
-        className="me-1.5"
-        avatarClassName="h-7 w-7"
-      />
-      Trusted by 1,000+ developers worldwide
-      <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-in-out ltr:group-hover:translate-x-0.5 rtl:scale-x-[-1] rtl:group-hover:-translate-x-0.5" />
-    </a>
-  )
-}
-
-function HeroImage() {
-  return (
-    <Card className="bg-accent p-3 md:p-6">
-      <Card
-        className="pointer-events-none bg-muted p-6 overflow-hidden"
-        asChild
-      >
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            src="/images/misc/hero.png"
-            alt=""
-            fill
-            sizes="(max-width: 768px) 640px, 1080px"
-            priority
-            className="block object-cover object-top dark:hidden"
-          />
-          <Image
-            src="/images/misc/hero-dark.png"
-            alt=""
-            fill
-            sizes="(max-width: 768px) 640px, 1080px"
-            priority
-            className="hidden object-cover object-top dark:block"
-          />
-        </AspectRatio>
-      </Card>
-    </Card>
   )
 }

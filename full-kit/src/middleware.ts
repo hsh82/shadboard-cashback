@@ -34,7 +34,10 @@ function redirect(pathname: string, request: NextRequest) {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const locale = getLocaleFromPathname(pathname)
-  const pathnameWithoutLocale = ensureWithoutPrefix(pathname, `/${locale}`)
+  let pathnameWithoutLocale = ensureWithoutPrefix(pathname, `/${locale}`)
+
+  if (pathnameWithoutLocale === "") pathnameWithoutLocale = "/"
+
   const isNotPublic = !isPublicRoute(pathnameWithoutLocale)
 
   // Handle authentication for protected and guest routes
@@ -89,7 +92,8 @@ export const config = {
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      * - images folder
      * - docs
+     * - documentation
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images|docs).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images|docs|documentation).*)",
   ],
 }

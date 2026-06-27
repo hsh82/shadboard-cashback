@@ -3,10 +3,8 @@ import type { Metadata } from "next"
 
 import { getDictionary } from "@/lib/get-dictionary"
 
-import { SignIn } from "@/components/auth/sign-in"
+import { RoleSelect } from "@/components/auth/role-select"
 
-// Define metadata for the page
-// More info: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
 export const metadata: Metadata = {
   title: "Sign In",
 }
@@ -17,5 +15,5 @@ export default async function SignInPage(props: {
   const params = await props.params
   const dictionary = await getDictionary(params.lang)
 
-  return <SignIn dictionary={dictionary} />
+  return <RoleSelect dictionary={dictionary} mode="sign-in" />
 }

@@ -1,6 +1,9 @@
+"use client"
+
 import type { DictionaryType } from "@/lib/get-dictionary"
 import type { ReactNode } from "react"
 
+import { DictionaryProvider } from "@/contexts/dictionary-context"
 import { LandingFooter } from "./landing-footer"
 import { LandingHeader } from "./landing-header"
 
@@ -12,10 +15,12 @@ export function Layout({
   dictionary: DictionaryType
 }) {
   return (
-    <div className="grow">
-      <LandingHeader dictionary={dictionary} />
-      <main>{children}</main>
-      <LandingFooter />
-    </div>
+    <DictionaryProvider dictionary={dictionary}>
+      <div className="grow">
+        <LandingHeader dictionary={dictionary} />
+        <main>{children}</main>
+        <LandingFooter />
+      </div>
+    </DictionaryProvider>
   )
 }

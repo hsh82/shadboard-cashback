@@ -1,31 +1,27 @@
-import { SiGithub } from "react-icons/si"
+"use client"
+
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+
+import { cn } from "@/lib/utils"
 
 import { buttonVariants } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 
 export function ReadyToBuildCTA() {
   return (
-    <section id="ready-to-build" className="container">
-      <Card className="flex flex-col justify-center items-center gap-3 text-center px-6 py-12">
-        <div className="space-y-1.5">
-          <h2 className="text-4xl font-semibold">
-            Ready to build your next project faster?
-          </h2>
-          <p className="max-w-prose mx-auto text-sm text-muted-foreground">
-            Get started with our free, open-source admin dashboard template — no
-            signup required.
-          </p>
+    <section className="container">
+      <div className="rounded-xl bg-primary/5 p-8 md:p-12 text-center space-y-4">
+        <h2 className="text-3xl font-bold">Ready to Explore?</h2>
+        <p className="text-muted-foreground max-w-xl mx-auto">
+          Sign in as a shop or customer to see the dashboards, or browse as
+          admin to monitor the platform.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link href="/sign-in" className={cn(buttonVariants({ size: "lg" }))}>
+            Start Demo <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
         </div>
-        <a
-          href="https://github.com/Qualiora/shadboard"
-          className={buttonVariants({ size: "lg" })}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <SiGithub className="me-2 h-4 w-4" />
-          View on GitHub
-        </a>
-      </Card>
+      </div>
     </section>
   )
 }
