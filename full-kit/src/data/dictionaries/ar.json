@@ -163,6 +163,7 @@
     "sales": "المبيعات",
     "products": "المنتجات",
     "offers": "العروض",
+    "messages": "الرسائل",
     "cashbackCustomer": "كاش باك للعميل",
     "myDashboard": "لوحتي",
     "wallet": "المحفظة",
@@ -201,7 +202,8 @@
     "processing": "قيد المعالجة",
     "paid": "مدفوع",
     "redeem": "استرداد",
-    "redeemed": "تم الاسترداد"
+    "redeemed": "تم الاسترداد",
+    "balance": "الرصيد"
   },
   "admin": {
     "admin": "الإدارة",
@@ -440,7 +442,8 @@
     "budget": "الميزانية",
     "revenueGenerated": "الإيرادات المتولدة",
     "couponsRedeemed": "الكوبونات المستخدمة",
-    "conversionRate": "معدل التحويل"
+    "conversionRate": "معدل التحويل",
+    "favoriteShops": "المتاجر المفضلة"
   },
   "customer": {
     "customer": "العميل",
@@ -462,6 +465,22 @@
     "fullName": "الاسم الكامل",
     "phone": "الهاتف",
     "address": "العنوان",
-    "saveChanges": "حفظ التغييرات"
+    "saveChanges": "حفظ التغييرات",
+    "currentCashbackBalance": "الرصيد الحالي",
+    "lifetimeCashbackEarned": "المكتسب مدى الحياة",
+    "totalPurchases": "إجمالي المشتريات",
+    "availableCoupons": "كوبونات متاحة",
+    "cashbackOverview": "نظرة عامة على الاسترداد",
+    "quickActions": "إجراءات سريعة",
+    "viewWallet": "عرض المحفظة",
+    "browseOffers": "تصفح العروض",
+    "messages": "الرسائل",
+    "favoriteShops": "المتاجر المفضلة",
+    "redeemed": "تم الاسترداد",
+    "date": "التاريخ",
+    "total": "الإجمالي",
+    "status": "الحالة",
+    "subtotal": "المجموع الفرعي",
+    "quickActions": "إجراءات سريعة"
   }
 }

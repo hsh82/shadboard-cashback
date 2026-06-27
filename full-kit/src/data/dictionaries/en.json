@@ -174,6 +174,7 @@
     "sales": "Sales",
     "products": "Products",
     "offers": "Offers",
+    "messages": "Messages",
     "cashbackCustomer": "Cashback Customer",
     "myDashboard": "My Dashboard",
     "wallet": "Wallet",
@@ -212,7 +213,8 @@
     "processing": "Processing",
     "paid": "Paid",
     "redeem": "Redeem",
-    "redeemed": "Redeemed"
+    "redeemed": "Redeemed",
+    "balance": "Balance"
   },
   "admin": {
     "admin": "Admin",
@@ -454,7 +456,8 @@
     "budget": "Budget",
     "revenueGenerated": "Revenue Generated",
     "couponsRedeemed": "Coupons Redeemed",
-    "conversionRate": "Conversion Rate"
+    "conversionRate": "Conversion Rate",
+    "favoriteShops": "Favorite Shops"
   },
   "customer": {
     "customer": "Customer",
@@ -476,6 +479,22 @@
     "fullName": "Full Name",
     "phone": "Phone",
     "address": "Address",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "currentCashbackBalance": "Current Balance",
+    "lifetimeCashbackEarned": "Lifetime Earned",
+    "totalPurchases": "Total Purchases",
+    "availableCoupons": "Available Coupons",
+    "cashbackOverview": "Cashback Overview",
+    "quickActions": "Quick Actions",
+    "viewWallet": "View Wallet",
+    "browseOffers": "Browse Offers",
+    "messages": "Messages",
+    "favoriteShops": "Favorite Shops",
+    "redeemed": "Redeemed",
+    "date": "Date",
+    "total": "Total",
+    "status": "Status",
+    "subtotal": "Subtotal",
+    "quickActions": "Quick Actions"
   }
 }

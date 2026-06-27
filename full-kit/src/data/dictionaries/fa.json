@@ -163,6 +163,7 @@
     "sales": "فروش",
     "products": "محصولات",
     "offers": "پیشنهادها",
+    "messages": "پیام‌ها",
     "cashbackCustomer": "کش بک مشتری",
     "myDashboard": "داشبورد من",
     "wallet": "کیف پول",
@@ -201,7 +202,8 @@
     "processing": "در حال پردازش",
     "paid": "پرداخت شده",
     "redeem": "استفاده",
-    "redeemed": "استفاده شده"
+    "redeemed": "استفاده شده",
+    "balance": "موجودی"
   },
   "admin": {
     "admin": "مدیریت",
@@ -440,7 +442,8 @@
     "budget": "بودجه",
     "revenueGenerated": "درآمد تولید شده",
     "couponsRedeemed": "کوپن‌های استفاده شده",
-    "conversionRate": "نرخ تبدیل"
+    "conversionRate": "نرخ تبدیل",
+    "favoriteShops": "فروشگاه‌های مورد علاقه"
   },
   "customer": {
     "customer": "مشتری",
@@ -462,6 +465,22 @@
     "fullName": "نام کامل",
     "phone": "تلفن",
     "address": "آدرس",
-    "saveChanges": "ذخیره تغییرات"
+    "saveChanges": "ذخیره تغییرات",
+    "currentCashbackBalance": "موجودی فعلی",
+    "lifetimeCashbackEarned": "کسب شده کل",
+    "totalPurchases": "کل خریدها",
+    "availableCoupons": "کوپن‌های موجود",
+    "cashbackOverview": "نمای کلی کش بک",
+    "quickActions": "اقدامات سریع",
+    "viewWallet": "مشاهده کیف پول",
+    "browseOffers": "مشاهده پیشنهادها",
+    "messages": "پیام‌ها",
+    "favoriteShops": "فروشگاه‌های مورد علاقه",
+    "redeemed": "استفاده شده",
+    "date": "تاریخ",
+    "total": "مجموع",
+    "status": "وضعیت",
+    "subtotal": "زیرمجموع",
+    "quickActions": "اقدامات سریع"
   }
 }
