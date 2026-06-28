@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Store, User, Wallet } from "lucide-react"
+import { ArrowRight, HeadphonesIcon, Store, User, Wallet } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -10,54 +10,53 @@ import { Card } from "@/components/ui/card"
 
 export function Hero() {
   return (
-    <section className="container space-y-10">
-      <div className="grid place-items-center text-center gap-y-6">
+    <section className="container space-y-12">
+      <div className="grid place-items-center text-center gap-y-8">
         <div className="inline-flex items-center rounded-full border bg-background px-4 py-1.5 text-sm font-medium">
-          <Wallet className="mr-2 h-4 w-4" />
-          Cashback Multi-Vendor Platform Demo
+          <Wallet className="ml-2 h-4 w-4" />
+          پلتفرم پیشرفته کش‌بک چندفروشگاهی
         </div>
         <h1 className="text-5xl md:text-6xl font-black leading-tight tracking-tight">
-          Earn Cashback on Every Purchase
+          با هر خرید،
+          <br />
+          <span className="text-primary">بیشتر سود</span> کنید!
         </h1>
         <p className="max-w-2xl text-lg text-muted-foreground">
-          A complete demo platform connecting shops, customers, and admins.
-          Vendors manage products and offers, customers earn cashback, and
-          admins monitor everything.
+          بازار وفاداری؛ کش‌بک هوشمند برای مشتریان و فروشگاه‌ها خرید آنلاین.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link href="/sign-in" className={cn(buttonVariants({ size: "lg" }))}>
-            Get Started
+            ثبت‌نام فروشگاه
           </Link>
           <Link
-            href="#features"
+            href="/sign-in"
             className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
           >
-            Explore Features <ArrowRight className="ml-2 h-4 w-4" />
+            ثبت‌نام مشتری <ArrowRight className="mr-2 h-4 w-4" />
           </Link>
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="p-6 text-center">
+        <Card className="p-6 text-center hover:shadow-lg transition-shadow">
           <Store className="mx-auto h-10 w-10 text-primary mb-3" />
-          <h3 className="text-lg font-semibold">For Shops</h3>
+          <h3 className="text-lg font-semibold">برای فروشندگان</h3>
           <p className="text-sm text-muted-foreground">
-            Manage products, create offers, track sales, and pay cashback
-            obligations.
+            افزایش مشتریان وفادار و افزایش خرید
           </p>
         </Card>
-        <Card className="p-6 text-center">
+        <Card className="p-6 text-center hover:shadow-lg transition-shadow">
           <User className="mx-auto h-10 w-10 text-primary mb-3" />
-          <h3 className="text-lg font-semibold">For Customers</h3>
+          <h3 className="text-lg font-semibold">برای مشتریان</h3>
           <p className="text-sm text-muted-foreground">
-            Browse offers, place orders, and earn cashback on every purchase.
+            از فروشگاه همشگیت خرید کن، اما با هزینه کمتر و خرید بیشتر !
           </p>
         </Card>
-        <Card className="p-6 text-center">
-          <Wallet className="mx-auto h-10 w-10 text-primary mb-3" />
-          <h3 className="text-lg font-semibold">For Admins</h3>
+        <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+          <HeadphonesIcon className="mx-auto h-10 w-10 text-primary mb-3" />
+          <h3 className="text-lg font-semibold">برای مدیران</h3>
           <p className="text-sm text-muted-foreground">
-            Monitor platform KPIs, vendors, customers, and transactions.
+            پنل مدیریتی جامع، گزارشات لحظه‌ای و نظارت بر کل پلتفرم.
           </p>
         </Card>
       </div>

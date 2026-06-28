@@ -1,46 +1,45 @@
-import { CheckCircle2, ShieldCheck, Zap } from "lucide-react"
+import {
+  BookOpen,
+  Coffee,
+  Pill,
+  Shirt,
+  ShoppingBag,
+  Store,
+  Utensils,
+} from "lucide-react"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function TrustedBy() {
+  const industries = [
+    { name: "فروشگاه", icon: Store },
+    { name: "رستوران", icon: Utensils },
+    { name: "کافه", icon: Coffee },
+    { name: "کتابفروشی", icon: BookOpen },
+    { name: "پوشاک", icon: Shirt },
+    { name: "داروخانه", icon: Pill },
+    { name: "سوپرمارکت", icon: ShoppingBag },
+  ]
+
   return (
     <section className="container">
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card className="text-center">
-          <CardHeader>
-            <Zap className="mx-auto h-8 w-8 text-primary" />
-            <CardTitle className="text-lg">Instant Demo</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              No setup required. All data is pre-loaded and interactive.
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="text-center">
-          <CardHeader>
-            <ShieldCheck className="mx-auto h-8 w-8 text-primary" />
-            <CardTitle className="text-lg">University Project</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Built for academic presentation with clean architecture and
-              scalable code.
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="text-center">
-          <CardHeader>
-            <CheckCircle2 className="mx-auto h-8 w-8 text-primary" />
-            <CardTitle className="text-lg">Production Ready Design</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Modern UI with shadcn/ui, dark mode, RTL support, and responsive
-              layouts.
-            </p>
-          </CardContent>
-        </Card>
+      <div className="text-center mb-8">
+        <p className="text-sm text-muted-foreground uppercase tracking-wider">
+          همکاران و مشتریان ما
+        </p>
+      </div>
+      <div className="grid gap-4 md:grid-cols-4 lg:grid-cols-7">
+        {industries.map(({ name, icon: Icon }) => (
+          <Card
+            key={name}
+            className="text-center p-4 hover:shadow-lg transition-shadow"
+          >
+            <CardHeader className="p-0 space-y-2">
+              <Icon className="mx-auto h-6 w-6 text-primary" />
+              <CardTitle className="text-xs">{name}</CardTitle>
+            </CardHeader>
+          </Card>
+        ))}
       </div>
     </section>
   )

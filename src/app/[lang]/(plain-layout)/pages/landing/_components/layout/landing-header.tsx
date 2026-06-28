@@ -45,7 +45,7 @@ export function LandingHeader({ dictionary }: { dictionary: DictionaryType }) {
             width={24}
             className="dark:invert"
           />
-          <span>CamRan</span>
+          <span>پلتفرم کش‌بک</span>
         </Link>
         <nav className="hidden lg:block">
           <ul className="place-self-center flex gap-2">
@@ -74,7 +74,7 @@ export function LandingHeader({ dictionary }: { dictionary: DictionaryType }) {
             className={cn(buttonVariants(), "hidden lg:flex")}
           >
             <LogIn className="me-2 h-4 w-4" />
-            <span>Register</span>
+            <span>ثبت‌نام</span>
           </Link>
         </div>
       </div>

@@ -23,18 +23,18 @@ export function LandingFooter() {
               width={24}
               className="dark:invert"
             />
-            <span>CamRan</span>
+            <span>پلتفرم کش‌بک</span>
           </Link>
           <h3 className="font-semibold leading-none tracking-tight">
-            Subscribe to our newsletter
+            عضویت در خبرنامه
           </h3>
           <p className="text-sm text-muted-foreground">
-            Get tips, technical guides, and best practices. Twice a month.
+            دریافت آخرین اخبار، راهنماهای فنی و بهترین نمونه‌ها.
           </p>
           <div className="flex items-center gap-x-2 mt-2">
             <Input type="email" placeholder="name@example.com" />
             <Link href="/" className={buttonVariants()}>
-              Subscribe
+              عضویت
             </Link>
           </div>
         </section>
@@ -70,12 +70,12 @@ export function LandingFooter() {
               rel="noopener noreferrer"
               className={cn(buttonVariants({ variant: "link" }), "inline p-0")}
             >
-              CamRan
+              پلتفرم کش‌بک
             </a>
             .
           </p>
           <p className="text-xs text-muted-foreground md:text-sm">
-            Designed & Developed by{" "}
+            طراحی و توسعه توسط{" "}
             <a
               href="https://github.com/hsh82"
               target="_blank"

@@ -35,7 +35,7 @@ export function CoreBenefitsItem({ benefit }: { benefit: CoreBenefitType }) {
           <StickyLayoutContent>
             {benefit.images.map((image) => (
               <Card key={image} className="bg-muted overflow-hidden" asChild>
-                <AspectRatio ratio={1 / 1}>
+                <AspectRatio ratio={3 / 2}>
                   <Image
                     src={image}
                     alt=""

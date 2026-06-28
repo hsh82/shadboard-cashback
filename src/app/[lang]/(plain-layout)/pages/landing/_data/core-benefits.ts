@@ -2,36 +2,36 @@ import type { CoreBenefitType } from "../types"
 
 export const coreBenefitsData: CoreBenefitType[] = [
   {
-    title: "Empowers Developers to Build Faster",
+    title: "برای مشتریان",
     description:
-      "Shadboard equips developers with the latest tools to rapidly build scalable, modern dashboards with less friction.",
+      "با هر خرید از فروشگاه‌های عضو، بخشی از مبلغ خرید به کیف پول شما بازمی‌گردد و می‌توانید آن را در خریدهای بعدی یا سایر فروشگاه‌های شبکه استفاده کنید.",
     points: [
-      "Modern stack: Next.js 15, React 19, and Tailwind CSS 4",
-      "4 ready-made apps and 20+ pages accelerate delivery",
-      "Reduces setup time and simplifies component reuse",
+      "دریافت کش‌بک پس از هر خرید",
+      "کیف پول یکپارچه برای مدیریت اعتبار",
+      "استفاده از اعتبار در تمام فروشگاه‌های عضو",
     ],
-    images: ["/images/illustrations/misc/whiteboard.svg"],
+    images: ["/images/dashbords/cash-back-costomer.jpg"],
   },
   {
-    title: "Designed for Real Teams and Real Users",
+    title: "برای فروشگاه‌ها",
     description:
-      "With customizable themes and built-in accessibility, Shadboard adapts seamlessly to your team’s needs and user diversity.",
+      "مشتریان وفادارتر، فروش بیشتر و مدیریت ساده‌تر؛ بدون وابستگی به پلتفرم‌های واسطه و با ابزارهای کامل مدیریت کسب‌وکار.",
     points: [
-      "Shadcn/UI and Radix UI components for a polished, accessible interface",
-      "Dark mode, light mode, and full theme customization",
-      "Multilingual support (i18n) for global-ready apps",
+      "مدیریت محصولات، سفارش‌ها و کارکنان",
+      "تعریف درصد کش‌بک و کمپین‌های ویژه",
+      "گزارش‌های دقیق از فروش و مشتریان",
     ],
-    images: ["/images/illustrations/scenes/scene-03.svg"],
+    images: ["/images/dashbords/cash-back-shop.webp"],
   },
   {
-    title: "Ready for Real-World Use from Day One",
+    title: "برای مدیر سامانه",
     description:
-      "Shadboard includes essential, production-ready features like authentication, form validation, and rich data components.",
+      "مدیریت کامل شبکه فروشگاه‌ها، مشتریان، تراکنش‌ها و قوانین پلتفرم از طریق یک داشبورد یکپارچه و حرفه‌ای.",
     points: [
-      "Secure authentication via NextAuth.js",
-      "Smart forms powered by React Hook Form and Zod",
-      "Interactive tables and charts with TanStack Table and Recharts",
+      "نظارت بر فروشگاه‌ها و کاربران",
+      "مدیریت کش‌بک، تسویه‌ها و قوانین سامانه",
+      "گزارش‌های تحلیلی و آمار لحظه‌ای",
     ],
-    images: ["/images/illustrations/scenes/scene-02.svg"],
+    images: ["/images/dashbords/cash-back-admin.jpg"],
   },
 ]

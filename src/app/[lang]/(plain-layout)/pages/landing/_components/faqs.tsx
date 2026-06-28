@@ -9,46 +9,67 @@ import {
 
 const faqs = [
   {
-    question: "What is this platform?",
+    question: "بازار وفاداری چیست؟",
     answer:
-      "This is a demo cashback multi-vendor platform built with Next.js and shadcn/ui. It simulates how shops, customers, and admins interact in a cashback ecosystem.",
+      "بازار وفاداری یک پلتفرم کش‌بک چندفروشگاهی است که مشتریان پس از هر خرید، بخشی از مبلغ پرداختی را به صورت اعتبار دریافت می‌کنند و می‌توانند آن را در سایر فروشگاه‌های عضو نیز استفاده کنند.",
   },
   {
-    question: "Is there a real backend?",
+    question: "چه فروشگاه‌هایی می‌توانند عضو شوند؟",
     answer:
-      "No. Everything uses local mock data and client-side state. No database, no API, and no authentication service are connected.",
+      "تمام کسب‌وکارهای حضوری و آنلاین مانند رستوران‌ها، کافه‌ها، فروشگاه‌های پوشاک، کتاب‌فروشی‌ها، سوپرمارکت‌ها و سایر فروشگاه‌ها می‌توانند به شبکه بازار وفاداری بپیوندند.",
   },
   {
-    question: "How do I navigate between portals?",
+    question: "کش‌بک چگونه محاسبه و پرداخت می‌شود؟",
     answer:
-      "Use the sidebar to switch between Admin, Shop, and Customer dashboards. Each portal has its own set of pages and data views.",
+      "درصد کش‌بک توسط هر فروشگاه تعیین می‌شود. پس از ثبت و تأیید خرید، اعتبار به کیف پول مشتری اضافه شده و در خریدهای بعدی قابل استفاده خواهد بود.",
   },
   {
-    question: "Which languages are supported?",
+    question: "آیا مشتری می‌تواند کش‌بک را در فروشگاه دیگری استفاده کند؟",
     answer:
-      "English (LTR), Arabic (RTL), and Persian (RTL). Use the language dropdown in the top bar to switch locales.",
+      "بله. مهم‌ترین مزیت بازار وفاداری این است که اعتبار کسب‌شده محدود به یک فروشگاه نیست و در تمام فروشگاه‌های عضو شبکه قابل استفاده است.",
   },
   {
-    question: "Can I add real data later?",
+    question: "مزیت این سیستم نسبت به تخفیف‌های معمول چیست؟",
     answer:
-      "Yes. The codebase is structured with typed interfaces and separate data folders, making it easy to replace mock data with real APIs.",
+      "به جای کاهش مستقیم قیمت کالا، مشتری برای خریدهای بعدی انگیزه پیدا می‌کند و فروشگاه نیز بدون کاهش مداوم حاشیه سود، مشتریان وفادار بیشتری جذب می‌کند.",
+  },
+  {
+    question: "آیا استفاده از پلتفرم آسان است؟",
+    answer:
+      "بله. پنل‌های اختصاصی مدیر، فروشگاه و مشتری با رابط کاربری ساده طراحی شده‌اند و تمامی امکانات از طریق داشبوردهای فارسی و واکنش‌گرا در دسترس هستند.",
   },
 ]
 
 export function Faqs() {
   return (
-    <section className="container max-w-3xl">
-      <div className="text-center space-y-2 mb-8">
-        <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
-        <p className="text-muted-foreground">
-          Quick answers about this demo platform.
+    <section className="container max-w-4xl">
+      <div className="mb-10 space-y-3 text-center">
+        <div className="inline-flex rounded-full border bg-primary/5 px-4 py-1 text-sm font-medium text-primary">
+          سوالات متداول
+        </div>
+
+        <h2 className="text-3xl font-bold md:text-4xl">پاسخ به سوالات رایج</h2>
+
+        <p className="mx-auto max-w-2xl text-muted-foreground">
+          اگر درباره نحوه عملکرد بازار وفاداری یا سیستم کش‌بک سوالی دارید، پاسخ
+          رایج‌ترین پرسش‌ها را در این بخش مشاهده کنید.
         </p>
       </div>
-      <Accordion type="single" collapsible className="w-full">
+
+      <Accordion
+        type="single"
+        collapsible
+        className="rounded-xl border bg-background px-6"
+      >
         {faqs.map((faq, idx) => (
           <AccordionItem key={idx} value={`item-${idx}`}>
-            <AccordionTrigger>{faq.question}</AccordionTrigger>
-            <AccordionContent>{faq.answer}</AccordionContent>
+            <AccordionTrigger className="text-right text-base font-semibold">
+              {faq.question}
+            </AccordionTrigger>
+
+            <AccordionContent className="leading-8 text-muted-foreground">
+              {faq.answer}
+            </AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>

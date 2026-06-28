@@ -1,11 +1,14 @@
 import Image from "next/image"
 import {
-  Code,
+  BarChart3,
+  CreditCard,
   Globe,
   Languages,
-  MonitorSmartphone,
-  PencilRuler,
-  SunMoon,
+  LayoutDashboard,
+  ShieldCheck,
+  Store,
+  Wallet,
+  Zap,
 } from "lucide-react"
 
 import type { CoreFeatureType } from "../types"
@@ -16,30 +19,31 @@ import { Iphone15Pro } from "@/components/ui/iphone-15-pro"
 
 export const coreFeaturesData: CoreFeatureType[] = [
   {
-    title: "Clean Code & Well-Documented",
+    title: "مدیریت شبکه فروشگاه‌ها",
     description:
-      "Developer-friendly structure with clear documentation, starter guides, and maintainable, readable code.",
-    icon: Code,
+      "تمام فروشگاه‌ها، محصولات، دسته‌بندی‌ها و قوانین کش‌بک را از یک پنل یکپارچه مدیریت کنید.",
+    icon: Store,
     className: "md:[&>div]:first:basis-1/3 md:col-span-2 md:flex-row",
     header: (
       <BentoHeader className="hidden md:block">
         <Card>
           <Image
-            src="/images/illustrations/misc/whiteboard.svg"
+            src="/images/dashbords/shop-dashbord.png"
             alt=""
-            height={1080}
             width={1080}
-            className="h-56 w-full object-cover bg-white overflow-hidden dark:invert"
+            height={1080}
+            className="h-56 w-full overflow-hidden bg-white object-cover dark:invert"
           />
         </Card>
       </BentoHeader>
     ),
   },
+
   {
-    title: "Responsive & Modern Design",
+    title: "کیف پول هوشمند کش‌بک",
     description:
-      "Sleek, adaptive layouts that look great on all devices and screen sizes.",
-    icon: MonitorSmartphone,
+      "اعتبار مشتری به‌صورت خودکار در کیف پول ذخیره شده و در تمام فروشگاه‌های عضو شبکه قابل استفاده است.",
+    icon: Wallet,
     className: "md:row-span-3 md:pb-0",
     header: (
       <BentoHeader className="hidden max-h-114 overflow-hidden md:block">
@@ -48,6 +52,7 @@ export const coreFeaturesData: CoreFeatureType[] = [
           className="h-auto w-full dark:hidden"
           id="iphone-15-pro-1"
         />
+
         <Iphone15Pro
           imageSrc="/images/misc/mobile-dark.jpg"
           className="hidden h-auto w-full dark:md:block"
@@ -56,30 +61,60 @@ export const coreFeaturesData: CoreFeatureType[] = [
       </BentoHeader>
     ),
   },
+
   {
-    title: "Fully Customizable",
+    title: "کمپین و پیشنهاد ویژه",
     description:
-      "Tweak colors, typography, and layouts with ease to match your brand or project needs.",
-    icon: PencilRuler,
+      "برای مناسبت‌ها، جشنواره‌ها و مشتریان وفادار کمپین‌های کش‌بک و پیشنهادهای محدود زمانی ایجاد کنید.",
+    icon: CreditCard,
     className: "",
   },
+
   {
-    title: "Dark & Light Modes",
+    title: "تسویه خودکار کش‌بک",
     description:
-      "Built-in theme switcher with dark, light, and transparent modes to match user preferences.",
-    icon: SunMoon,
+      "سیستم به‌صورت هوشمند مبلغ کش‌بک و سهم هر فروشگاه را محاسبه و مدیریت می‌کند.",
+    icon: Zap,
     className: "",
   },
+
   {
-    title: "RTL & Multilingual Ready",
+    title: "گزارش‌ها و تحلیل هوشمند",
     description:
-      "Supports right-to-left languages and internationalization for global reach.",
+      "فروش، کش‌بک، مشتریان، سفارش‌ها و عملکرد فروشگاه‌ها را با نمودارهای تحلیلی مشاهده کنید.",
+    icon: BarChart3,
+    className: "",
+  },
+
+  {
+    title: "پنل‌های اختصاصی",
+    description:
+      "داشبوردهای مجزا برای مدیر، فروشگاه و مشتری با امکانات متناسب با هر نقش.",
+    icon: LayoutDashboard,
+    className: "",
+  },
+
+  {
+    title: "چندزبانه و راست‌به‌چپ",
+    description:
+      "پشتیبانی کامل از زبان فارسی، انگلیسی و عربی با تغییر خودکار جهت نمایش.",
     icon: Languages,
+    className: "",
   },
+
   {
-    title: "Cross-Browser & Accessibility Ready",
+    title: "امن، پایدار و مقیاس‌پذیر",
     description:
-      "Consistent performance across all major browsers with built-in accessibility support.",
+      "معماری مدرن برای توسعه آینده، امنیت اطلاعات و مدیریت تعداد زیاد کاربران و فروشگاه‌ها.",
+    icon: ShieldCheck,
+    className: "",
+  },
+
+  {
+    title: "آماده توسعه و یکپارچه‌سازی",
+    description:
+      "طراحی ماژولار برای اتصال به درگاه پرداخت، سیستم‌های حسابداری و سرویس‌های شخص ثالث.",
     icon: Globe,
+    className: "",
   },
 ]

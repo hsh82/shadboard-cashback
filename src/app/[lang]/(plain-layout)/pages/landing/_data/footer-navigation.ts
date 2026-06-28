@@ -1,56 +1,48 @@
 export const footerNavigationData = [
   {
-    title: "Product",
+    title: "محصول",
     links: [
       {
-        label: "Benefits",
-        href: "#benefits",
-      },
-      {
-        label: "Features",
+        label: "ویژگی‌ها",
         href: "#features",
       },
-      { label: "Testimonials", href: "#testimonials" },
       {
-        label: "Pricing",
-        href: "#pricing",
+        label: "مزایا",
+        href: "#benefits",
       },
+      { label: "نظرات", href: "#testimonials" },
       {
-        label: "FAQs",
+        label: "سوالات متداول",
         href: "#faqs",
       },
       {
-        label: "Contact Us",
+        label: "تماس با ما",
         href: "#contact-us",
       },
     ],
   },
   {
-    title: "Resources",
+    title: "پنل‌ها",
     links: [
-      { label: "Documentation", href: "http://localhost:3000/docs" },
-      { label: "GitHub", href: "https://github.com/hsh82/shadboard" },
-      {
-        label: "Changelog",
-        href: "https://github.com/hsh82/shadboard/releases",
-      },
-      { label: "Support", href: "#contact-us" },
+      { label: "داشبورد مدیر", href: "/admin/dashboard" },
+      { label: "داشبورد فروشگاه", href: "/shop/dashboard" },
+      { label: "داشبورد مشتری", href: "/customer/dashboard" },
     ],
   },
   {
-    title: "Legal",
+    title: "منابع",
     links: [
-      { label: "MIT License", href: "https://opensource.org/licenses/MIT" },
-      { label: "Privacy Policy", href: "" },
-      { label: "Terms of Service", href: "" },
+      { label: "مستندات", href: "/docs" },
+      { label: "گیت‌هاب", href: "https://github.com/hsh82/shadboard" },
+      { label: "پشتیبانی", href: "#contact-us" },
     ],
   },
   {
-    title: "Company",
+    title: "شرکت",
     links: [
-      { label: "About", href: "" },
-      { label: "Contact", href: "#contact-us" },
-      { label: "Blog", href: "" },
+      { label: "درباره ما", href: "#" },
+      { label: "تماس", href: "#contact-us" },
+      { label: "بلاگ", href: "#" },
     ],
   },
 ]
