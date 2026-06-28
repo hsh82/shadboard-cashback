@@ -237,7 +237,7 @@ export function AdminDashboardOverview() {
             <AreaChart data={dailyMetrics}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
-              <YAxis />
+              {isRTL ? <YAxis tick={{ textAnchor: "start" }} /> : <YAxis />}
               <ChartTooltip content={<ChartTooltipContent />} />
               <Area
                 type="monotone"

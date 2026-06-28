@@ -9,6 +9,7 @@ import { dailyMetrics } from "@/data/mock/admin-metrics"
 
 import { formatRial } from "@/lib/utils"
 
+import { useSettings } from "@/hooks/use-settings"
 import { useDictionary } from "@/contexts/dictionary-context"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -45,6 +46,8 @@ const chartConfig = {
 export function ShopDashboardOverview() {
   const dictionary = useDictionary()
   const d = dictionary.shop
+  const { settings } = useSettings()
+  const isRTL = settings.locale === "ar" || settings.locale === "fa"
 
   const shopId = "1"
   const shopOrders = orders.filter((o) => o.shopId === shopId)
@@ -169,7 +172,7 @@ export function ShopDashboardOverview() {
             <AreaChart data={dailyMetrics}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
-              <YAxis />
+              {isRTL ? <YAxis tick={{ textAnchor: "start" }} /> : <YAxis />}
               <ChartTooltip content={<ChartTooltipContent />} />
               <Area
                 type="monotone"

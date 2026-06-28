@@ -66,7 +66,10 @@ export function ProductsGrid() {
     stock: 0,
     status: "active",
     description: "",
+    image: "",
   })
+
+  const [imagePreview, setImagePreview] = useState<string>("")
 
   const resetForm = () => {
     setForm({
@@ -77,7 +80,9 @@ export function ProductsGrid() {
       stock: 0,
       status: "active",
       description: "",
+      image: "",
     })
+    setImagePreview("")
     setEditing(null)
   }
 
@@ -99,19 +104,21 @@ export function ProductsGrid() {
         )
       )
     } else {
-      const newProduct: ProductType & { description?: string } = {
-        id: `${Date.now()}`,
-        name: form.name,
-        sku: form.sku || `SKU-${Date.now()}`,
-        category: form.category || "General",
-        price: form.price || 0,
-        stock: form.stock || 0,
-        status: (form.status as ProductType["status"]) || "active",
-        createdAt: new Date().toISOString().split("T")[0],
-        shopId: "1",
-        description:
-          (form as ProductType & { description?: string }).description || "",
-      }
+      const newProduct: ProductType & { description?: string; image?: string } =
+        {
+          id: `${Date.now()}`,
+          name: form.name,
+          sku: form.sku || `SKU-${Date.now()}`,
+          category: form.category || "General",
+          price: form.price || 0,
+          stock: form.stock || 0,
+          status: (form.status as ProductType["status"]) || "active",
+          createdAt: new Date().toISOString().split("T")[0],
+          shopId: "1",
+          description:
+            (form as ProductType & { description?: string }).description || "",
+          image: (form as ProductType & { image?: string }).image || "",
+        }
       setProductsList((prev) => [...prev, newProduct])
     }
     handleOpenChange(false)
@@ -128,8 +135,23 @@ export function ProductsGrid() {
       status: product.status,
       description:
         (product as ProductType & { description?: string }).description || "",
+      image: (product as ProductType & { image?: string }).image || "",
     })
+    setImagePreview((product as ProductType & { image?: string }).image || "")
     setOpen(true)
+  }
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const result = reader.result as string
+        setForm((prev) => ({ ...prev, image: result }))
+        setImagePreview(result)
+      }
+      reader.readAsDataURL(file)
+    }
   }
 
   const handleDelete = (id: string) => {
@@ -203,6 +225,28 @@ export function ProductsGrid() {
                       handleChange("description", e.target.value as string)
                     }
                   />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="image">Product Image</Label>
+                  <Input
+                    id="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="cursor-pointer"
+                  />
+                  {imagePreview && (
+                    <div className="mt-2 flex justify-center">
+                      <div className="relative h-32 w-32 overflow-hidden rounded-lg border bg-muted">
+                        <Image
+                          src={imagePreview}
+                          alt="Preview"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
